@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>configurator_backend</RootNamespace>
+    <UserSecretsId>f8a479a3-3729-4cd6-8771-973865af3a84</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\Catalogue\Pcie\**" />
+    <Content Remove="Controllers\Catalogue\Pcie\**" />
+    <EmbeddedResource Remove="Controllers\Catalogue\Pcie\**" />
+    <None Remove="Controllers\Catalogue\Pcie\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="7.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="7.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_GlobalJsonStartingDir Remove="Controllers\Catalogue\Pcie\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Controllers\Catalogue\Pcie\BracketsController.cs" />
+    <Compile Include="Controllers\Catalogue\Pcie\ExpansionCardsController.cs" />
+    <Compile Include="Controllers\Catalogue\Pcie\SizesController.cs" />
+    <Compile Include="Controllers\Catalogue\Pcie\SlotsController.cs" />
+    <Compile Include="Controllers\Catalogue\Pcie\VersionsContrtoller.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\Catalogue\Case\" />
+    <Folder Include="Controllers\Catalogue\CentralProcessor\" />
+    <Folder Include="Controllers\Catalogue\Cooler\" />
+    <Folder Include="Controllers\Catalogue\Fan\" />
+    <Folder Include="Controllers\Catalogue\GraphicsProcessor\" />
+    <Folder Include="Controllers\Catalogue\Memory\" />
+    <Folder Include="Controllers\Catalogue\Motherboard\" />
+    <Folder Include="Controllers\Catalogue\PowerSupply\" />
+    <Folder Include="Controllers\Catalogue\Storage\" />
+    <Folder Include="Models\Catalogue\Case\" />
+    <Folder Include="Models\Catalogue\Cooler\" />
+    <Folder Include="Models\Catalogue\Motherboard\" />
+    <Folder Include="Models\Catalogue\Storage\" />
+  </ItemGroup>
+
+</Project>
