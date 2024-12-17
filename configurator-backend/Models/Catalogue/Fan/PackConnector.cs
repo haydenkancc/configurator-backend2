@@ -1,12 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.Fan
+namespace ConfiguratorBackend.Models.Catalogue.Fan
 {
     public class PackConnectorDbo
     {
-        public int ConnectorID { get; set; }
-        public int ConnectorCount { get; set; }
+        [Required]
+        public required int ConnectorID { get; set; }
+        [Required]
+        public required int ConnectorCount { get; set; }
     }
 
     [PrimaryKey(nameof(PackID), nameof(ConnectorID))]
@@ -14,14 +17,14 @@ namespace configurator_backend.Models.Catalogue.Fan
     {
 
         public int PackID { get; set; }
-        public int ConnectorID { get; set; }
-        public int ConnectorCount { get; set; }
+        public required int ConnectorID { get; set; }
+        public required int ConnectorCount { get; set; }
 
 
         [DeleteBehavior(DeleteBehavior.Cascade)]
         [JsonIgnore]
-        public required Pack Pack { get; set; }
+        public Pack Pack { get; set; } = null!;
         [DeleteBehavior(DeleteBehavior.Cascade)]
-        public required IO.Connector Connector { get; set; }
+        public IO.Connector Connector { get; set; } = null!;
     }
 }

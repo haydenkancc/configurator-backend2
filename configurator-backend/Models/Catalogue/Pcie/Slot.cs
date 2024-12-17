@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.Pcie
+namespace ConfiguratorBackend.Models.Catalogue.Pcie
 {
     public class SlotListItemSimple
     {
@@ -53,24 +54,27 @@ namespace configurator_backend.Models.Catalogue.Pcie
 
     public class SlotDbo
     {
-        public int LaneSizeID { get; set; }
-        public int PhysicalSizeID { get; set; }
-        public int VersionID { get; set; }
+        [Required]
+        public required int LaneSizeID { get; set; }
+        [Required]
+        public required int PhysicalSizeID { get; set; }
+        [Required]
+        public required int VersionID { get; set; }
     }
 
     public class Slot
     {
         public int ID { get; set; }
-        public int LaneSizeID { get; set; }
-        public int PhysicalSizeID { get; set; }
-        public int VersionID { get; set; }
+        public required int LaneSizeID { get; set; }
+        public required int PhysicalSizeID { get; set; }
+        public required int VersionID { get; set; }
 
         [DeleteBehavior(DeleteBehavior.NoAction)]
-        public required Size PhysicalSize { get; set; }
-        public required Size LaneSize { get; set; }
-        public required Version Version { get; set; }
+        public Size PhysicalSize { get; set; } = null!;
+        public Size LaneSize { get; set; } = null!;
+        public Version Version { get; set; } = null!;
 
         [JsonIgnore]
-        public ICollection<MotherboardUnitSlot>? Motherboards { get; set; }
+        public ICollection<Motherboard.UnitPcieSlot> Motherboards { get; set; } = new List<Motherboard.UnitPcieSlot>();
     }
 }

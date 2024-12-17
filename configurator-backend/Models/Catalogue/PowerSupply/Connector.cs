@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.PowerSupply
+namespace ConfiguratorBackend.Models.Catalogue.PowerSupply
 {
     public class ConnectorListItem
     {
@@ -37,8 +37,10 @@ namespace configurator_backend.Models.Catalogue.PowerSupply
 
     public class ConnectorDbo
     {
+        [Required]
         public required string Name { get; set; }
-        public List<int>? CompatibleConnectorIDs { get; set; }
+        [Required]
+        public required List<int> CompatibleConnectorIDs { get; set; }
     }
 
     [Index(nameof(Name), IsUnique = true)]
@@ -48,16 +50,20 @@ namespace configurator_backend.Models.Catalogue.PowerSupply
         public int ID { get; set; }
         public required string Name { get; set; }
 
-        public ICollection<Connector>? CompatibleConnectors { get; set; }
+        public ICollection<Connector> CompatibleConnectors { get; set; } = new List<Connector>();
 
 
         [JsonIgnore]
-        public ICollection<Connector>? PhysicalConnectors { get; set; }
+        public ICollection<Connector> PhysicalConnectors { get; set; } = new List<Connector>();
         [JsonIgnore]
-        public ICollection<UnitConnector>? Units { get; set; }
+        public ICollection<UnitConnector> Units { get; set; } = new List<UnitConnector>();
         [JsonIgnore]
-        public ICollection<MotherboardUnitPowerSupplyConnector>? Motherboards { get; set; }
+        public ICollection<Motherboard.UnitPowerSupplyConnector> Motherboards { get; set; } = new List<Motherboard.UnitPowerSupplyConnector>();
         [JsonIgnore]
-        public ICollection<CaseStorageUnit>? StorageUnits { get; set; }
+        public ICollection<Storage.CaseUnit> StorageUnits { get; set; } = new List<Storage.CaseUnit>();
+        [JsonIgnore]
+        public ICollection<Case.UnitPowerSupplyConnector> Cases { get; set; } = new List<Case.UnitPowerSupplyConnector>();
+        [JsonIgnore]
+        public ICollection<GraphicsCard.ConfigurationConnector> GraphicsCards { get; set; } = new List<GraphicsCard.ConfigurationConnector>();
     }
 }

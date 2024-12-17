@@ -1,11 +1,11 @@
 ﻿using Configurator.Data;
-using configurator_backend.Models.Catalogue.Pcie;
-using configurator_backend.Models;
+using ConfiguratorBackend.Models.Catalogue.Pcie;
+using ConfiguratorBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace configurator_backend.Controllers.Catalogue.Pcie
+namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
 {
     public class ExpansionCardsController : ControllerBase
     {
@@ -55,20 +55,11 @@ namespace configurator_backend.Controllers.Catalogue.Pcie
                 return BadRequest();
             }
 
-            var physicalSize = await _context.PcieSizes.FirstOrDefaultAsync(e => expansionCard.PhysicalSizeID == e.ID);
-            var laneSize = await _context.PcieSizes.FirstOrDefaultAsync(e => expansionCard.LaneSizeID == e.ID);
-            var version = await _context.PcieVersions.FirstOrDefaultAsync(e => expansionCard.VersionID == e.ID);
-            var bracket = await _context.PcieBrackets.FirstOrDefaultAsync(e => expansionCard.BracketID == e.ID);
-
-            if ((physicalSize is null) || (laneSize is null) || (version is null) || (bracket is null))
-            {
-                return BadRequest();
-            }
-
-            expansionCardToUpdate.Bracket = bracket;
-            expansionCardToUpdate.PhysicalSize = physicalSize;
-            expansionCardToUpdate.LaneSize = laneSize;
-            expansionCardToUpdate.Version = version;
+            expansionCardToUpdate.BracketID = expansionCard.BracketID;
+            expansionCardToUpdate.PhysicalSizeID = expansionCard.PhysicalSizeID;
+            expansionCardToUpdate.LaneSizeID = expansionCard.LaneSizeID;
+            expansionCardToUpdate.VersionID = expansionCard.VersionID;
+            expansionCardToUpdate.ExpansionSlotWidth = expansionCard.ExpansionSlotWidth;
 
             _context.Entry(expansionCardToUpdate).State = EntityState.Modified;
 
@@ -100,22 +91,13 @@ namespace configurator_backend.Controllers.Catalogue.Pcie
                 return BadRequest();
             }
 
-            var physicalSize = await _context.PcieSizes.FirstOrDefaultAsync(e => expansionCard.PhysicalSizeID == e.ID);
-            var laneSize = await _context.PcieSizes.FirstOrDefaultAsync(e => expansionCard.LaneSizeID == e.ID);
-            var version = await _context.PcieVersions.FirstOrDefaultAsync(e => expansionCard.VersionID == e.ID);
-            var bracket = await _context.PcieBrackets.FirstOrDefaultAsync(e => expansionCard.BracketID == e.ID);
-
-            if ((physicalSize is null) || (laneSize is null) || (version is null) || (bracket is null))
-            {
-                return BadRequest();
-            }
-
             var emptyExpansionCard = new ExpansionCard
             {
-                Bracket = bracket,
-                PhysicalSize = physicalSize,
-                LaneSize = laneSize,
-                Version = version,
+                BracketID = expansionCard.BracketID,
+                PhysicalSizeID = expansionCard.PhysicalSizeID,
+                LaneSizeID = expansionCard.LaneSizeID,
+                VersionID = expansionCard.VersionID,
+                ExpansionSlotWidth = expansionCard.ExpansionSlotWidth
             };
 
             _context.PcieExpansionCards.Add(emptyExpansionCard);
@@ -146,6 +128,11 @@ namespace configurator_backend.Controllers.Catalogue.Pcie
 
         private async Task<bool> ExpansionCardIsValid(ExpansionCardDbo expansionCard)
         {
+            if (expansionCard.ExpansionSlotWidth <= 0)
+            {
+                return false;
+            }
+
             if (!await _context.PcieSizes.AnyAsync(e => expansionCard.LaneSizeID == e.ID) ||
                 !await _context.PcieSizes.AnyAsync(e => expansionCard.PhysicalSizeID == e.ID) ||
                 !await _context.PcieVersions.AnyAsync(e => expansionCard.VersionID == e.ID)

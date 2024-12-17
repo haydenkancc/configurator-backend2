@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.Pcie
+namespace ConfiguratorBackend.Models.Catalogue.Pcie
 {
     public class VersionListItem
     {
@@ -23,6 +24,7 @@ namespace configurator_backend.Models.Catalogue.Pcie
 
     public class VersionDbo
     {
+        [Required]
         public required string Name { get; set; }
     }
 
@@ -34,13 +36,13 @@ namespace configurator_backend.Models.Catalogue.Pcie
         public required string Name { get; set; }
 
         [JsonIgnore]
-        public ICollection<Slot>? PcieSlots { get; set; }
+        public ICollection<Slot> PcieSlots { get; set; } = new List<Slot>();
         [JsonIgnore]
-        public ICollection<ExpansionCard>? PcieExpansionCards { get; set; }
+        public ICollection<ExpansionCard> PcieExpansionCards { get; set; } = new List<ExpansionCard>();
 
         [JsonIgnore]
-        public ICollection<M2.ExpansionCard>? M2ExpansionCards { get; set; }
+        public ICollection<M2.ExpansionCard> M2ExpansionCards { get; set; } = new List<M2.ExpansionCard>();
         [JsonIgnore]
-        public ICollection<M2.Slot>? M2Slots { get; set; }
+        public ICollection<M2.Slot> M2Slots { get; set; } = new List<M2.Slot>();
     }
 }

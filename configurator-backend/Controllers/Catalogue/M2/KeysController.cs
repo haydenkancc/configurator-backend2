@@ -1,12 +1,12 @@
 ﻿using Configurator.Data;
-using configurator_backend.Models.Catalogue.M2;
-using configurator_backend.Models.Catalogue;
-using configurator_backend.Models;
+using ConfiguratorBackend.Models.Catalogue.M2;
+using ConfiguratorBackend.Models.Catalogue;
+using ConfiguratorBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace configurator_backend.Controllers.Catalogue.M2
+namespace ConfiguratorBackend.Controllers.Catalogue.M2
 {
     [Route("api/M2/[controller]")]
     [ApiController]
@@ -72,14 +72,8 @@ namespace configurator_backend.Controllers.Catalogue.M2
                 return BadRequest();
             }
 
-            List<Key>? compatibleKeys = null;
-            if (key.CompatibleKeyIDs is not null)
-            {
-                compatibleKeys = await _context.M2Keys.Where(e => key.CompatibleKeyIDs.Contains(e.ID)).ToListAsync();
-            }
-
             keyToUpdate.Name = key.Name;
-            keyToUpdate.CompatibleKeys = compatibleKeys;
+            keyToUpdate.CompatibleKeys = await _context.M2Keys.Where(e => key.CompatibleKeyIDs.Contains(e.ID)).ToListAsync();
 
 
             _context.Entry(keyToUpdate).State = EntityState.Modified;
@@ -113,16 +107,10 @@ namespace configurator_backend.Controllers.Catalogue.M2
                 return BadRequest();
             }
 
-            List<Key>? compatibleKeys = null;
-            if (key.CompatibleKeyIDs is not null)
-            {
-                compatibleKeys = await _context.M2Keys.Where(e => key.CompatibleKeyIDs.Contains(e.ID)).ToListAsync();
-            }
-
             var emptyKey = new Key
             {
                 Name = key.Name,
-                CompatibleKeys = compatibleKeys,
+                CompatibleKeys = await _context.M2Keys.Where(e => key.CompatibleKeyIDs.Contains(e.ID)).ToListAsync(),
             };
 
             _context.M2Keys.Add(emptyKey);

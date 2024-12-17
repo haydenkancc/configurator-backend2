@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.IO
+namespace ConfiguratorBackend.Models.Catalogue.IO
 {
     public class ConnectorListItem
     {
@@ -37,8 +37,10 @@ namespace configurator_backend.Models.Catalogue.IO
 
     public class ConnectorDbo
     {
+        [Required]
         public required string Name { get; set; }
-        public List<int>? CompatibleConnectorIDs { get; set; }
+        [Required]
+        public required List<int> CompatibleConnectorIDs { get; set; }
     }
 
     [Index(nameof(Name), IsUnique = true)]
@@ -48,22 +50,22 @@ namespace configurator_backend.Models.Catalogue.IO
         public int ID { get; set; }
         public required string Name { get; set; }
         
-        public ICollection<Connector>? CompatibleConnectors { get; set; }
+        public ICollection<Connector> CompatibleConnectors { get; set; } = new List<Connector>();
 
 
         [JsonIgnore]
-        public ICollection<Connector>? PhysicalConnectors { get; set; }
+        public ICollection<Connector> PhysicalConnectors { get; set; } = new List<Connector>();
 
 
         [JsonIgnore]
-        public ICollection<CaseUnitFrontIOConnector>? CaseFrontIOs { get; set; }
+        public ICollection<Case.UnitIOConnector> Cases { get; set; } = new List<Case.UnitIOConnector>();
         [JsonIgnore]
-        public ICollection<CoolerUnitIOConnector>? Coolers { get; set; }
+        public ICollection<Cooler.UnitConnector> Coolers { get; set; } = new List<Cooler.UnitConnector>();
         [JsonIgnore]
-        public ICollection<Fan.PackConnector>? Fans { get; set; }
+        public ICollection<Fan.PackConnector> Fans { get; set; } = new List<Fan.PackConnector>();
         [JsonIgnore]
-        public ICollection<MotherboardUnitIOConnector>? Motherboards { get; set; }
+        public ICollection<Motherboard.UnitIOConnector> Motherboards { get; set; } = new List<Motherboard.UnitIOConnector>();
         [JsonIgnore]
-        public ICollection<CaseStorageUnit>? StorageUnits { get; set; }
+        public ICollection<Storage.CaseUnit> StorageUnits { get; set; } = new List<Storage.CaseUnit>();
     }
 }

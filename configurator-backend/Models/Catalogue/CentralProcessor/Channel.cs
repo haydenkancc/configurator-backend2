@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.CentralProcessor
+namespace ConfiguratorBackend.Models.Catalogue.CentralProcessor
 {
     public class ChannelListItem
     {
@@ -29,6 +30,7 @@ namespace configurator_backend.Models.Catalogue.CentralProcessor
 
     public class ChannelDbo
     {
+        [Required]
         public required string Name { get; set; }
     }
 
@@ -40,8 +42,8 @@ namespace configurator_backend.Models.Catalogue.CentralProcessor
         public required string Name { get; set; }
 
         [JsonIgnore]
-        public ICollection<Unit>? Units { get; set; }
+        public ICollection<Unit> Units { get; set; } = new List<Unit>();
         [JsonIgnore]
-        public ICollection<MotherboardUnit>? Motherboards { get; set; }
+        public ICollection<Motherboard.Unit> Motherboards { get; set; } = new List<Motherboard.Unit>();
     }
 }

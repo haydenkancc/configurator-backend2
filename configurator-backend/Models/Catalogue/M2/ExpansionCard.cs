@@ -1,8 +1,9 @@
-﻿using configurator_backend.Models.Catalogue.General;
+﻿using ConfiguratorBackend.Models.Catalogue.General;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.M2
+namespace ConfiguratorBackend.Models.Catalogue.M2
 {
     public class ExpansionCardParams
     {
@@ -30,23 +31,27 @@ namespace configurator_backend.Models.Catalogue.M2
 
     public class ExpansionCardDbo
     {
-        public int KeyID { get; set; }
-        public int FormFactorID { get; set; }
-        public int VersionID { get; set; }
-        public int LaneSizeID { get; set; }
+        [Required]
+        public required int KeyID { get; set; }
+        [Required]
+        public required int FormFactorID { get; set; }
+        [Required]
+        public required int VersionID { get; set; }
+        [Required]
+        public required int LaneSizeID { get; set; }
     }
 
     public class ExpansionCard
     {
         public int ID { get; set; }
-        public int KeyID { get; set; }
-        public int FormFactorID { get; set; }
-        public int VersionID { get; set; }
-        public int LaneSizeID { get; set; }
+        public required int KeyID { get; set; }
+        public required int FormFactorID { get; set; }
+        public required int VersionID { get; set; }
+        public required int LaneSizeID { get; set; }
 
-        public required Key Key { get; set; }
-        public required FormFactor FormFactor { get; set; }
-        public required Pcie.Version Version { get; set; }
-        public required Pcie.Size LaneSize { get; set; }
+        public Key Key { get; set; } = null!;
+        public FormFactor FormFactor { get; set; } = null!;
+        public Pcie.Version Version { get; set; } = null!;
+        public Pcie.Size LaneSize { get; set; } = null!;
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.GraphicsCard
+namespace ConfiguratorBackend.Models.Catalogue.GraphicsCard
 {
     public class ChipsetListItem
     {
@@ -29,6 +30,7 @@ namespace configurator_backend.Models.Catalogue.GraphicsCard
 
     public class ChipsetDbo
     {
+        [Required]
         public required string Name { get; set; }
     }
 
@@ -40,5 +42,6 @@ namespace configurator_backend.Models.Catalogue.GraphicsCard
         public required string Name { get; set; }
 
         [JsonIgnore]
-        public ICollection<Unit>? Units { get; set; }
+        public ICollection<Unit> Units { get; set; } = new List<Unit>();
+    }
 }

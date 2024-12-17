@@ -1,11 +1,11 @@
 ﻿using Configurator.Data;
-using configurator_backend.Models.Catalogue.Pcie;
-using configurator_backend.Models;
+using ConfiguratorBackend.Models.Catalogue.Pcie;
+using ConfiguratorBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace configurator_backend.Controllers.Catalogue.Pcie
+namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
 {
     [Route("api/Pcie/[controller]")]
     [ApiController]
@@ -71,18 +71,9 @@ namespace configurator_backend.Controllers.Catalogue.Pcie
                 return BadRequest();
             }
 
-            var physicalSize = await _context.PcieSizes.FirstOrDefaultAsync(e => slot.PhysicalSizeID == e.ID);
-            var laneSize = await _context.PcieSizes.FirstOrDefaultAsync(e => slot.LaneSizeID == e.ID);
-            var version = await _context.PcieVersions.FirstOrDefaultAsync(e => slot.VersionID == e.ID);
-
-            if ((physicalSize is null) || (laneSize is null) || (version is null))
-            {
-                return BadRequest();
-            }
-
-            slotToUpdate.PhysicalSize = physicalSize;
-            slotToUpdate.LaneSize = laneSize;
-            slotToUpdate.Version = version;
+            slotToUpdate.PhysicalSizeID = slot.PhysicalSizeID;
+            slotToUpdate.LaneSizeID = slot.LaneSizeID;
+            slotToUpdate.VersionID = slot.VersionID;
 
             _context.Entry(slotToUpdate).State = EntityState.Modified;
 
@@ -115,20 +106,11 @@ namespace configurator_backend.Controllers.Catalogue.Pcie
                 return BadRequest();
             }
 
-            var physicalSize = await _context.PcieSizes.FirstOrDefaultAsync(e => slot.PhysicalSizeID == e.ID);
-            var laneSize = await _context.PcieSizes.FirstOrDefaultAsync(e => slot.LaneSizeID == e.ID);
-            var version = await _context.PcieVersions.FirstOrDefaultAsync(e => slot.VersionID == e.ID);
-
-            if ((physicalSize is null) || (laneSize is null) || (version is null))
-            {
-                return BadRequest();
-            }
-
             var emptySlot = new Slot
             {
-                PhysicalSize = physicalSize,
-                LaneSize = laneSize,
-                Version = version,
+                PhysicalSizeID = slot.PhysicalSizeID,
+                LaneSizeID = slot.LaneSizeID,
+                VersionID = slot.VersionID,
             };
 
             _context.PcieSlots.Add(emptySlot);

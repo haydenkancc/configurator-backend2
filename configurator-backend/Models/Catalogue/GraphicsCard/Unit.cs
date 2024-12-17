@@ -1,9 +1,10 @@
-﻿using configurator_backend.Models.Catalogue.General;
+﻿using ConfiguratorBackend.Models.Catalogue.General;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.GraphicsCard
+namespace ConfiguratorBackend.Models.Catalogue.GraphicsCard
 {
     public class UnitListItem : ComponentListItem
     {
@@ -30,9 +31,9 @@ namespace configurator_backend.Models.Catalogue.GraphicsCard
         public ICollection<Configuration> Configurations { get; set; }
         public Chipset Chipset { get; set; }
         public Memory.Type MemoryType { get; set; }
-        public int Length { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public decimal Length { get; set; }
+        public decimal Width { get; set; }
+        public decimal Height { get; set; }
 
         public int TotalSlotWidth { get; set; }
         public int TotalPower { get; set; }
@@ -69,23 +70,36 @@ namespace configurator_backend.Models.Catalogue.GraphicsCard
         public required ICollection<PowerSupply.Connector> Connectors { get; set; }
     }
 
-    public class UnitDbo : IPCIeExpansionCardDbo
+    public class UnitDbo
     {
-        public PCIeExpansionCardDbo ExpansionCard { get; set; }
-        public int ChipsetID { get; set; }
-        public int MemoryCapacityID { get; set; }
-        public int MemoryTypeID { get; set; }
+        [Required]
+        public required Pcie.ExpansionCardDbo ExpansionCard { get; set; }
+        [Required]
+        public required int ChipsetID { get; set; }
+        [Required]
+        public required int MemoryCapacityID { get; set; }
+        [Required]
+        public required int MemoryTypeID { get; set; }
 
-        public int Length { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        [Required]
+        public required int Length { get; set; }
+        [Required]
+        public required int Width { get; set; }
+        [Required]
+        public required int Height { get; set; }
 
-        public int TotalSlotWidth { get; set; }
-        public int TotalPower { get; set; }
-        public int RecommendedPower { get; set; }
-        public int CoreClock { get; set; }
-        public int BoostClock { get; set; }
-        public ICollection<UnitConfigurationDbo> Configurations { get; set; }
+        [Required]
+        public required int TotalSlotWidth { get; set; }
+        [Required]
+        public required int TotalPower { get; set; }
+        [Required]
+        public required int RecommendedPower { get; set; }
+        [Required]
+        public required int CoreClock { get; set; }
+        [Required]
+        public required int BoostClock { get; set; }
+        [Required]
+        public required ICollection<ConfigurationDbo> Configurations { get; set; }
     }
 
     [PrimaryKey(nameof(ComponentID))]
@@ -93,25 +107,28 @@ namespace configurator_backend.Models.Catalogue.GraphicsCard
     {
         public int ComponentID { get; set; }
         public int ExpansionCardID { get; set; }
-        public int ChipsetID { get; set; }
-        public int Length { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public required int ChipsetID { get; set; }
+        [Column(TypeName = "decimal(8,2)")]
+        public required decimal Length { get; set; }
+        [Column(TypeName = "decimal(8,2)")]
+        public required decimal Width { get; set; }
+        [Column(TypeName = "decimal(8,2)")]
+        public required decimal Height { get; set; }
 
-        public int TotalSlotWidth { get; set; }
-        public int TotalPower { get; set; }
-        public int RecommendedPower { get; set; }
-
-        public int MemoryCapacity { get; set; }
-        public int MemoryTypeID { get; set; }
-        public int CoreClock { get; set; }
-        public int BoostClock { get; set; }
+        public required int TotalSlotWidth { get; set; }
+        public required int TotalPower { get; set; }
+        public required int RecommendedPower { get; set; }
+               
+        public required int MemoryCapacity { get; set; }
+        public required int MemoryTypeID { get; set; }
+        public required int CoreClock { get; set; }
+        public required int BoostClock { get; set; }
 
         [ForeignKey(nameof(ComponentID))]
-        public required Component Component { get; set; }
-        public required Pcie.ExpansionCard ExpansionCard { get; set; }
-        public required Chipset Chipset { get; set; }
-        public required Memory.Type MemoryType { get; set; }
+        public Component Component { get; set; } = null!;
+        public Pcie.ExpansionCard ExpansionCard { get; set; } = null!;
+        public Chipset Chipset { get; set; } = null!;
+        public Memory.Type MemoryType { get; set; } = null!;
         public required ICollection<Configuration> Configurations { get; set; }
     }
 }

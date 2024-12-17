@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.Pcie
+namespace ConfiguratorBackend.Models.Catalogue.Pcie
 {
     public class SizeListItem
     {
@@ -28,29 +29,31 @@ namespace configurator_backend.Models.Catalogue.Pcie
 
     public class SizeDbo
     {
-        public int ID { get; set; }
-        public int LaneCount { get; set; }
+        [Required]
+        public required int ID { get; set; }
+        [Required]
+        public required int LaneCount { get; set; }
     }
 
     public class Size
     {
         public int ID { get; set; }
-        public int LaneCount { get; set; }
+        public required int LaneCount { get; set; }
 
 
         [JsonIgnore]
         [InverseProperty(nameof(Slot.PhysicalSize))]
-        public ICollection<Slot>? PhysicalMatchingPcieSlots { get; set; }
+        public ICollection<Slot> PhysicalMatchingPcieSlots { get; set; } = new List<Slot>();
         [JsonIgnore]
-        public ICollection<Slot>? LaneMatchingPcieSlots { get; set; }
+        public ICollection<Slot> LaneMatchingPcieSlots { get; set; } = new List<Slot>();
 
         [JsonIgnore]
         [InverseProperty(nameof(ExpansionCard.PhysicalSize))]
-        public ICollection<ExpansionCard>? PhysicalMatchingPcieExpansionCards { get; set; }
+        public ICollection<ExpansionCard> PhysicalMatchingPcieExpansionCards { get; set; } = new List<ExpansionCard>();
         [JsonIgnore]
-        public ICollection<ExpansionCard>? LaneMatchingPcieExpansionCards { get; set; }
+        public ICollection<ExpansionCard> LaneMatchingPcieExpansionCards { get; set; } = new List<ExpansionCard>();
 
         [JsonIgnore]
-        public ICollection<M2.Slot>? M2Slots { get; set; }
+        public ICollection<M2.Slot> M2Slots { get; set; } = new List<M2.Slot>();
     }
 }

@@ -1,10 +1,10 @@
 ﻿using Configurator.Data;
-using configurator_backend.Models;
-using configurator_backend.Models.Catalogue.General;
+using ConfiguratorBackend.Models;
+using ConfiguratorBackend.Models.Catalogue.General;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace configurator_backend.Controllers.Catalogue.General
+namespace ConfiguratorBackend.Controllers.Catalogue.General
 {
     [Route("api/General/[controller]")]
     [ApiController]

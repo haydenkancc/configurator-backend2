@@ -1,9 +1,10 @@
-﻿using configurator_backend.Models.Catalogue.General;
+﻿using ConfiguratorBackend.Models.Catalogue.General;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.Fan
+namespace ConfiguratorBackend.Models.Catalogue.Fan
 {
     public class PackListItem : ComponentListItem
     {
@@ -61,15 +62,24 @@ namespace configurator_backend.Models.Catalogue.Fan
 
     public class PackDbo
     {
+        [Required]
         public required ComponentDbo Component { get; set; }
-        public int Quantity { get; set; }
-        public int SizeID { get; set; }
+        [Required]
+        public required int Quantity { get; set; }
+        [Required]
+        public required int SizeID { get; set; }
+        [Required]
         public required string Rpm { get; set; }
+        [Required]
         public required string Airflow { get; set; }
+        [Required]
         public required string NoiseLevel { get; set; }
+        [Required]
         public required string StaticPressure { get; set; }
-        public bool Pwm { get; set; }
+        [Required]
+        public required bool Pwm { get; set; }
 
+        [Required]
         public required ICollection<PackConnectorDbo> Connectors { get; set; }
     }
 
@@ -77,17 +87,17 @@ namespace configurator_backend.Models.Catalogue.Fan
     public class Pack
     {
         public int ComponentID { get; set; }
-        public int Quantity { get; set; }
-        public int SizeID { get; set; }
+        public required int Quantity { get; set; }
+        public required int SizeID { get; set; }
         public required string Rpm { get; set; }
         public required string Airflow { get; set; }
         public required string NoiseLevel { get; set; }
         public required string StaticPressure { get; set; }
-        public bool Pwm { get; set; }
+        public required bool Pwm { get; set; }
 
         [ForeignKey(nameof(ComponentID))]
-        public required Component Component { get; set; }
-        public required Size Size { get; set; }
+        public required Component Component { get; set; } = null!;
+        public required Size Size { get; set; } = null!;
         public required ICollection<PackConnector> Connectors { get; set; }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Configurator.Data;
-using configurator_backend.Models;
+using ConfiguratorBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using configurator_backend.Models.Catalogue.Pcie;
-using PcieModels = configurator_backend.Models.Catalogue.Pcie;
+using ConfiguratorBackend.Models.Catalogue.Pcie;
+using PcieModels = ConfiguratorBackend.Models.Catalogue.Pcie;
 
-namespace configurator_backend.Controllers.Catalogue.Pcie
+namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
 {
     [Route("api/Pcie/[controller]")]
     [ApiController]

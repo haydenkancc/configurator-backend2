@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.CentralProcessor
+namespace ConfiguratorBackend.Models.Catalogue.CentralProcessor
 {
     public class CoreFamilyListItem
     {
@@ -34,19 +34,19 @@ namespace configurator_backend.Models.Catalogue.CentralProcessor
     public class CoreFamilyDbo
     {
         public required string Name { get; set; }
-        public int MicroarchitectureID { get; set; }
+        public required int MicroarchitectureID { get; set; }
     }
 
     [Index(nameof(Name), IsUnique = true)]
     public class CoreFamily
     {
         public int ID { get; set; }
-        public int MicroarchitectureID { get; set; }
+        public required int MicroarchitectureID { get; set; }
         public required string Name { get; set; }
-        
-        public required Microarchitecture Microarchitecture { get; set; }
+
+        public Microarchitecture Microarchitecture { get; set; } = null!;
 
         [JsonIgnore]
-        public ICollection<Unit>? Units { get; set; }
+        public ICollection<Unit> Units { get; set; } = new List<Unit>();
     }
 }

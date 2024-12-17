@@ -1,9 +1,10 @@
-﻿using configurator_backend.Models.Catalogue.General;
+﻿using ConfiguratorBackend.Models.Catalogue.General;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.PowerSupply
+namespace ConfiguratorBackend.Models.Catalogue.PowerSupply
 {
     public class UnitParams
     {
@@ -57,32 +58,40 @@ namespace configurator_backend.Models.Catalogue.PowerSupply
 
     public class UnitDbo
     {
+        [Required]
         public required ComponentDbo Component { get; set; }
+        [Required]
         public required ICollection<UnitConnectorDbo> Connectors { get; set; }
-        public int FormFactorID { get; set; }
-        public int ModularityID { get; set; }
-        public int EfficiencyRatingID { get; set; }
-        public int TotalPower { get; set; }
-        public int Length { get; set; }
-        public bool Fanless { get; set; }
+        [Required]
+        public required int FormFactorID { get; set; }
+        [Required]
+        public required int ModularityID { get; set; }
+        [Required]
+        public required int EfficiencyRatingID { get; set; }
+        [Required]
+        public required int TotalPower { get; set; }
+        [Required]
+        public required int Length { get; set; }
+        [Required]
+        public required bool Fanless { get; set; }
     }
 
     [PrimaryKey(nameof(ComponentID))]
     public class Unit
     {
         public int ComponentID { get; set; }
-        public int FormFactorID { get; set; }
-        public int ModularityID { get; set; }
-        public int EfficiencyRatingID { get; set; }
-        public int TotalPower { get; set; }
-        public int Length { get; set; }
-        public bool Fanless { get; set; }
+        public required int FormFactorID { get; set; }
+        public required int ModularityID { get; set; }
+        public required int EfficiencyRatingID { get; set; }
+        public required int TotalPower { get; set; }
+        public required int Length { get; set; }
+        public required bool Fanless { get; set; }
 
         [ForeignKey(nameof(ComponentID))]
-        public required Component Component { get; set; }
-        public required FormFactor FormFactor { get; set; }
-        public required Modularity Modularity { get; set; }
-        public required EfficiencyRating EfficiencyRating { get; set; }
+        public Component Component { get; set; } = null!;
+        public FormFactor FormFactor { get; set; } = null!;
+        public Modularity Modularity { get; set; } = null!;
+        public EfficiencyRating EfficiencyRating { get; set; } = null!;
         public required ICollection<UnitConnector> Connectors { get; set; }
     }
 }

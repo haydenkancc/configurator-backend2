@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.M2
+namespace ConfiguratorBackend.Models.Catalogue.M2
 {
     public class FormFactorListItem
     {
@@ -29,6 +30,7 @@ namespace configurator_backend.Models.Catalogue.M2
 
     public class FormFactorDbo
     {
+        [Required]
         public required string Name { get; set; }
     }
 
@@ -41,8 +43,8 @@ namespace configurator_backend.Models.Catalogue.M2
 
 
         [JsonIgnore]
-        public ICollection<Slot>? Slots { get; set; }
+        public ICollection<Slot> Slots { get; set; } = new List<Slot>();
         [JsonIgnore]
-        public ICollection<ExpansionCard>? ExpansionCards { get; set; }
+        public ICollection<ExpansionCard> ExpansionCards { get; set; } = new List<ExpansionCard>();
     }
 }

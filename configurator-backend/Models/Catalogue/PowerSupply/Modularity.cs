@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.PowerSupply
+namespace ConfiguratorBackend.Models.Catalogue.PowerSupply
 {
     public class ModularityListItem
     {
@@ -23,6 +24,7 @@ namespace configurator_backend.Models.Catalogue.PowerSupply
 
     public class ModularityDbo
     {
+        [Required]
         public required string Name { get; set; }
     }
 
@@ -34,6 +36,6 @@ namespace configurator_backend.Models.Catalogue.PowerSupply
         public required string Name { get; set; }
 
         [JsonIgnore]
-        public ICollection<Unit>? Units { get; set; }
+        public ICollection<Unit> Units { get; set; } = new List<Unit>();
     }
 }

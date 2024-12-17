@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace configurator_backend.Models
+namespace ConfiguratorBackend.Models
 {
     public class PaginatedList<T>
     {

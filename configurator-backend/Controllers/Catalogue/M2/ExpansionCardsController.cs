@@ -1,10 +1,10 @@
 ﻿using Configurator.Data;
-using configurator_backend.Models.Catalogue.M2;
+using ConfiguratorBackend.Models.Catalogue.M2;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace configurator_backend.Controllers.Catalogue.M2
+namespace ConfiguratorBackend.Controllers.Catalogue.M2
 {
     public class ExpansionCardsController : ControllerBase
     {
@@ -55,20 +55,10 @@ namespace configurator_backend.Controllers.Catalogue.M2
                 return BadRequest();
             }
 
-            var key = await _context.M2Keys.FirstOrDefaultAsync(e => expansionCard.KeyID == e.ID);
-            var formFactor = await _context.M2FormFactors.FirstOrDefaultAsync(e => expansionCard.FormFactorID == e.ID);
-            var laneSize = await _context.PcieSizes.FirstOrDefaultAsync(e => expansionCard.LaneSizeID == e.ID);
-            var version = await _context.PcieVersions.FirstOrDefaultAsync(e => expansionCard.VersionID == e.ID);
-
-            if ((key is null) || (laneSize is null) || (version is null) || (formFactor is null))
-            {
-                return BadRequest();
-            }
-
-            expansionCardToUpdate.Key = key;
-            expansionCardToUpdate.FormFactor = formFactor;
-            expansionCardToUpdate.LaneSize = laneSize;
-            expansionCardToUpdate.Version = version;
+            expansionCardToUpdate.KeyID = expansionCard.KeyID;
+            expansionCardToUpdate.FormFactorID = expansionCard.FormFactorID;
+            expansionCardToUpdate.LaneSizeID = expansionCard.LaneSizeID;
+            expansionCardToUpdate.VersionID = expansionCard.VersionID;
 
             _context.Entry(expansionCardToUpdate).State = EntityState.Modified;
 
@@ -100,23 +90,12 @@ namespace configurator_backend.Controllers.Catalogue.M2
                 return BadRequest();
             }
 
-
-            var key = await _context.M2Keys.FirstOrDefaultAsync(e => expansionCard.KeyID == e.ID);
-            var formFactor = await _context.M2FormFactors.FirstOrDefaultAsync(e => expansionCard.FormFactorID == e.ID);
-            var laneSize = await _context.PcieSizes.FirstOrDefaultAsync(e => expansionCard.LaneSizeID == e.ID);
-            var version = await _context.PcieVersions.FirstOrDefaultAsync(e => expansionCard.VersionID == e.ID);
-
-            if ((key is null) || (laneSize is null) || (version is null) || (formFactor is null))
-            {
-                return BadRequest();
-            }
-
             var emptyExpansionCard = new ExpansionCard
             {
-                Key = key,
-                FormFactor = formFactor,
-                LaneSize = laneSize,
-                Version = version,
+                KeyID = expansionCard.KeyID,
+                FormFactorID = expansionCard.FormFactorID,
+                LaneSizeID = expansionCard.LaneSizeID,
+                VersionID = expansionCard.VersionID,
             };
 
             _context.M2ExpansionCards.Add(emptyExpansionCard);

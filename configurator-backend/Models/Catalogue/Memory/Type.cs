@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.Memory
+namespace ConfiguratorBackend.Models.Catalogue.Memory
 {
     public class TypeListItem
     {
@@ -23,6 +24,7 @@ namespace configurator_backend.Models.Catalogue.Memory
 
     public class TypeDbo
     {
+        [Required]
         public required string Name { get; set; }
     }
 
@@ -34,10 +36,10 @@ namespace configurator_backend.Models.Catalogue.Memory
         public required string Name { get; set; }
 
         [JsonIgnore]
-        public ICollection<Kit>? Kits { get; set; }
+        public ICollection<Kit> Kits { get; set; } = new List<Kit>();
         [JsonIgnore]
-        public ICollection<MotherboardUnit>? Motherboards { get; set; }
+        public ICollection<Motherboard.Unit> Motherboards { get; set; } = new List<Motherboard.Unit>();
         [JsonIgnore]
-        public ICollection<GraphicsCard.Unit>? GraphicsCards { get; set; }
+        public ICollection<GraphicsCard.Unit> GraphicsCards { get; set; } = new List<GraphicsCard.Unit>();
     }
 }

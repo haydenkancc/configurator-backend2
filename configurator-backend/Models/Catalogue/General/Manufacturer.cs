@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.General
+namespace ConfiguratorBackend.Models.Catalogue.General
 {
     public class ManufacturerListItem
     {
@@ -28,6 +30,7 @@ namespace configurator_backend.Models.Catalogue.General
 
     public class ManufacturerDbo
     {
+        [Required]
         public required string Name { get; set; }
     }
 
@@ -36,5 +39,8 @@ namespace configurator_backend.Models.Catalogue.General
     {
         public int ID { get; set; }
         public required string Name { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Component> Components { get; set; } = new List<Component>();
     }
 }

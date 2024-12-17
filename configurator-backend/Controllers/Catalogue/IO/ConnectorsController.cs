@@ -1,11 +1,11 @@
 ﻿using Configurator.Data;
-using configurator_backend.Models.Catalogue.IO;
-using configurator_backend.Models;
+using ConfiguratorBackend.Models.Catalogue.IO;
+using ConfiguratorBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace configurator_backend.Controllers.Catalogue.IO
+namespace ConfiguratorBackend.Controllers.Catalogue.IO
 {
     [Route("api/IO/[controller]")]
     [ApiController]

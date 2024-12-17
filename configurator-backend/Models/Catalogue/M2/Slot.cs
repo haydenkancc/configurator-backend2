@@ -1,7 +1,7 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.M2
+namespace ConfiguratorBackend.Models.Catalogue.M2
 {
     public class SlotListItemSimple
     {
@@ -72,16 +72,16 @@ namespace configurator_backend.Models.Catalogue.M2
     {
         [SwaggerSchema(ReadOnly = true)]
         public int ID { get; set; }
-        public int KeyID { get; set; }
-        public int LaneSizeID { get; set; }
-        public int VersionID { get; set; }
+        public required int KeyID { get; set; }
+        public required int LaneSizeID { get; set; }
+        public required int VersionID { get; set; }
 
-        public required Key Key { get; set; }
-        public required Pcie.Size LaneSize { get; set; }
-        public required Pcie.Version Version { get; set; }
+        public Key Key { get; set; } = null!;
+        public Pcie.Size LaneSize { get; set; } = null!;
+        public Pcie.Version Version { get; set; } = null!;
         public required ICollection<FormFactor> FormFactors { get; set; }
 
         [JsonIgnore]
-        public ICollection<MotherboardUnitM2Slot>? Motherboards { get; set; }
+        public ICollection<Motherboard.UnitM2Slot> Motherboards { get; set; } = new List<Motherboard.UnitM2Slot>();
     }
 }

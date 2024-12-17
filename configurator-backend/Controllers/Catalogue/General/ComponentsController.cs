@@ -1,9 +1,9 @@
 ﻿using Configurator.Data;
-using configurator_backend.Models.Catalogue.General;
+using ConfiguratorBackend.Models.Catalogue.General;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace configurator_backend.Controllers.Catalogue.General
+namespace ConfiguratorBackend.Controllers.Catalogue.General
 {
     public class ComponentsController : ControllerBase
     {
@@ -20,7 +20,11 @@ namespace configurator_backend.Controllers.Catalogue.General
             {
                 Manufacturers = await _context.Manufacturers
                 .AsNoTracking()
-                .ToListAsync()
+                .ToListAsync(),
+
+                Colours = await _context.Colours
+                .AsNoTracking()
+                .ToListAsync(),
             };
         }
 
@@ -62,6 +66,8 @@ namespace configurator_backend.Controllers.Catalogue.General
             componentToUpdate.SalePrice = component.SalePrice;
             componentToUpdate.OnSale = component.OnSale;
             componentToUpdate.Saleable = component.Saleable;
+            componentToUpdate.IsColoured = component.IsColoured;
+            componentToUpdate.ColourID = component.IsColoured ? component.ColourID : null;
 
             _context.Entry(componentToUpdate).State = EntityState.Modified;
 
@@ -76,12 +82,6 @@ namespace configurator_backend.Controllers.Catalogue.General
                 return BadRequest();
             }
 
-            var manufacturer = await _context.Manufacturers.FirstOrDefaultAsync(e => e.ID == component.ManufacturerID);
-
-            if (manufacturer is null) {
-                return BadRequest();
-            }
-
             var emptyComponent = new Component
             {
                 SKU = component.SKU,
@@ -91,7 +91,9 @@ namespace configurator_backend.Controllers.Catalogue.General
                 SalePrice = component.SalePrice,
                 OnSale = component.OnSale,
                 Saleable = component.Saleable,
-                Manufacturer = manufacturer,
+                ManufacturerID = component.ManufacturerID,
+                IsColoured = component.IsColoured,
+                ColourID = component.IsColoured ? component.ColourID : null,
             };
 
             _context.Components.Add(emptyComponent);

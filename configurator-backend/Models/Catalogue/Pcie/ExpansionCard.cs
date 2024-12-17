@@ -1,9 +1,10 @@
-﻿using configurator_backend.Models.Catalogue.General;
+﻿using ConfiguratorBackend.Models.Catalogue.General;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.Pcie
+namespace ConfiguratorBackend.Models.Catalogue.Pcie
 {
     public class ExpansionCardParams
     {
@@ -32,28 +33,33 @@ namespace configurator_backend.Models.Catalogue.Pcie
 
     public class ExpansionCardDbo
     {
-        public int BracketID { get; set; }
-        public int VersionID { get; set; }
-        public int LaneSizeID { get; set; }
-        public int PhysicalSizeID { get; set; }
-        public int ExpansionSlotWidth { get; set; }
+        [Required]
+        public required int BracketID { get; set; }
+        [Required]
+        public required int VersionID { get; set; }
+        [Required]
+        public required int LaneSizeID { get; set; }
+        [Required]
+        public required int PhysicalSizeID { get; set; }
+        [Required]
+        public required int ExpansionSlotWidth { get; set; }
     }
 
     public class ExpansionCard
     {
         public int ID { get; set; }
-        public int BracketID { get; set; }
-        public int VersionID { get; set; }
-        public int LaneSizeID { get; set; }
-        public int PhysicalSizeID { get; set; }
-        public int ExpansionSlotWidth { get; set; }
+        public required int BracketID { get; set; }
+        public required int VersionID { get; set; }
+        public required int LaneSizeID { get; set; }
+        public required int PhysicalSizeID { get; set; }
+        public required int ExpansionSlotWidth { get; set; }
 
 
-        public required Bracket Bracket { get; set; }
-        public required Version Version { get; set; }
-        public required Size LaneSize { get; set; }
+        public Bracket Bracket { get; set; } = null!;
+        public Version Version { get; set; } = null!;
+        public Size LaneSize { get; set; } = null!;
         [DeleteBehavior(DeleteBehavior.NoAction)]
-        public required Size PhysicalSize { get; set; }
+        public Size PhysicalSize { get; set; } = null!;
 
         [JsonIgnore]
         public GraphicsCard.Unit? GraphicsProcessor { get; set; }

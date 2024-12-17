@@ -1,12 +1,12 @@
 ﻿using Configurator.Data;
-using configurator_backend.Models.Catalogue.M2;
-using configurator_backend.Models.Catalogue;
-using configurator_backend.Models;
+using ConfiguratorBackend.Models.Catalogue.M2;
+using ConfiguratorBackend.Models.Catalogue;
+using ConfiguratorBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace configurator_backend.Controllers.Catalogue.M2
+namespace ConfiguratorBackend.Controllers.Catalogue.M2
 {
     [Route("api/M2/[controller]")]
     [ApiController]
@@ -75,20 +75,12 @@ namespace configurator_backend.Controllers.Catalogue.M2
                 return BadRequest();
             }
 
-            var key = await _context.M2Keys.FirstOrDefaultAsync(e => slot.KeyID == e.ID);
-            var formFactors = await _context.M2FormFactors.Where(e => slot.FormFactorIDs.Contains(e.ID)).ToListAsync();
-            var laneSize = await _context.PcieSizes.FirstOrDefaultAsync(e => slot.LaneSizeID == e.ID);
-            var version = await _context.PcieVersions.FirstOrDefaultAsync(e => slot.VersionID == e.ID);
+            _context.M2Slots.Entry(slotToUpdate).Collection(e => e.FormFactors).Load();
 
-            if ((key is null) || (formFactors is null) || (laneSize is null) || (version is null))
-            {
-                return BadRequest();
-            }
-
-            slotToUpdate.Key = key;
-            slotToUpdate.FormFactors = formFactors;
-            slotToUpdate.LaneSize = laneSize;
-            slotToUpdate.Version = version;
+            slotToUpdate.KeyID = slot.KeyID;
+            slotToUpdate.FormFactors = await _context.M2FormFactors.Where(e => slot.FormFactorIDs.Contains(e.ID)).ToListAsync();
+            slotToUpdate.LaneSizeID = slot.LaneSizeID;
+            slotToUpdate.VersionID = slot.VersionID;
 
             _context.Entry(slotToUpdate).State = EntityState.Modified;
 
@@ -121,22 +113,12 @@ namespace configurator_backend.Controllers.Catalogue.M2
                 return BadRequest();
             }
 
-            var key = await _context.M2Keys.FirstOrDefaultAsync(e => slot.KeyID == e.ID);
-            var formFactors = await _context.M2FormFactors.Where(e => slot.FormFactorIDs.Contains(e.ID)).ToListAsync();
-            var laneSize = await _context.PcieSizes.FirstOrDefaultAsync(e => slot.LaneSizeID == e.ID);
-            var version = await _context.PcieVersions.FirstOrDefaultAsync(e => slot.VersionID == e.ID);
-
-            if ((key is null) || (formFactors is null) || (laneSize is null) || (version is null))
-            {
-                return BadRequest();
-            }
-
             var emptySlot = new Slot
             {
-                Key = key,
-                FormFactors = formFactors,
-                LaneSize = laneSize,
-                Version = version,
+                KeyID = slot.KeyID,
+                FormFactors = await _context.M2FormFactors.Where(e => slot.FormFactorIDs.Contains(e.ID)).ToListAsync(),
+                LaneSizeID = slot.LaneSizeID,
+                VersionID = slot.VersionID,
             };
 
             _context.M2Slots.Add(emptySlot);

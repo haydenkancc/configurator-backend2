@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.Pcie
+namespace ConfiguratorBackend.Models.Catalogue.Pcie
 {
     public class BracketListItem
     {
@@ -29,6 +30,7 @@ namespace configurator_backend.Models.Catalogue.Pcie
 
     public class BracketDbo
     {
+        [Required]
         public required string Name { get; set; }
     }
 
@@ -40,9 +42,9 @@ namespace configurator_backend.Models.Catalogue.Pcie
         public required string Name { get; set; }
 
         [JsonIgnore]
-        public ICollection<ExpansionCard>? ExpansionCards { get; set; }
+        public ICollection<ExpansionCard> ExpansionCards { get; set; } = new List<ExpansionCard>();
 
         [JsonIgnore]
-        public ICollection<CaseUnitExpansionSlotArea>? ExpansionSlotAreas { get; set; }
+        public ICollection<Case.ExpansionSlotArea> ExpansionSlotAreas { get; set; } = new List<Case.ExpansionSlotArea>();
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.CentralProcessor
+namespace ConfiguratorBackend.Models.Catalogue.CentralProcessor
 {
     public class SocketListItem
     {
@@ -29,6 +30,7 @@ namespace configurator_backend.Models.Catalogue.CentralProcessor
 
     public class SocketDbo
     {
+        [Required]
         public required string Name { get; set; }
     }
 
@@ -40,6 +42,8 @@ namespace configurator_backend.Models.Catalogue.CentralProcessor
         public required string Name { get; set; }
 
         [JsonIgnore]
-        public ICollection<Unit>? Units { get; set; }
+        public ICollection<Unit> Units { get; set; } = new List<Unit>();
+        [JsonIgnore]
+        public ICollection<Cooler.Unit> Coolers { get; set; } = new List<Cooler.Unit>();
     }
 }

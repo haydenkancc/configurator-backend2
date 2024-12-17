@@ -1,8 +1,9 @@
-﻿using configurator_backend.Models.Catalogue.CentralProcessor;
+﻿using ConfiguratorBackend.Models.Catalogue.CentralProcessor;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.Fan
+namespace ConfiguratorBackend.Models.Catalogue.Fan
 {
     public class SizeListItem
     {
@@ -30,7 +31,8 @@ namespace configurator_backend.Models.Catalogue.Fan
 
     public class SizeDbo
     {
-        public int SideLength { get; set; }
+        [Required]
+        public required int SideLength { get; set; }
     }
 
     [Index(nameof(SideLength), IsUnique = true)]
@@ -38,9 +40,11 @@ namespace configurator_backend.Models.Catalogue.Fan
     {
         public int ID { get; set; }
 
-        public int SideLength { get; set; }
+        public required int SideLength { get; set; }
 
         [JsonIgnore]
-        public ICollection<Unit>? Units { get; set; }
+        public ICollection<Unit> Units { get; set; } = new List<Unit>();
+        [JsonIgnore]
+        public ICollection<Case.LayoutPanelFan> CasePanels { get; set; } = new List<Case.LayoutPanelFan>();
     }
 }

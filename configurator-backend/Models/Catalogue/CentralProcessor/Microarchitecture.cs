@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace configurator_backend.Models.Catalogue.CentralProcessor
+namespace ConfiguratorBackend.Models.Catalogue.CentralProcessor
 {
     public class MicroarchitectureListItem
     {
@@ -29,6 +30,7 @@ namespace configurator_backend.Models.Catalogue.CentralProcessor
 
     public class MicroarchitectureDbo
     {
+        [Required]
         public required string Name { get; set; }
     }
 
@@ -40,8 +42,6 @@ namespace configurator_backend.Models.Catalogue.CentralProcessor
         public required string Name { get; set; }
 
         [JsonIgnore]
-        public ICollection<Unit>? Units { get; set; }
-        [JsonIgnore]
-        public ICollection<CoreFamily>? CoreFamilies { get; set; }
+        public ICollection<CoreFamily> CoreFamilies { get; set; } = new List<CoreFamily>();
     }
 }
