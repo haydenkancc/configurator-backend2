@@ -72,7 +72,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
 
             if (!await SlotIsValid(slot))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             _context.M2Slots.Entry(slotToUpdate).Collection(e => e.FormFactors).Load();
@@ -110,7 +110,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
 
             if (!await SlotIsValid(slot))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var emptySlot = new Slot

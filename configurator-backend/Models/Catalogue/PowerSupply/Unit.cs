@@ -79,7 +79,7 @@ namespace ConfiguratorBackend.Models.Catalogue.PowerSupply
     [PrimaryKey(nameof(ComponentID))]
     public class Unit
     {
-        public int ComponentID { get; set; }
+        public required int ComponentID { get; set; }
         public required int FormFactorID { get; set; }
         public required int ModularityID { get; set; }
         public required int EfficiencyRatingID { get; set; }

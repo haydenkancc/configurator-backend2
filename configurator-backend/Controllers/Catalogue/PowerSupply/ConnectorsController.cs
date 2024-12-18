@@ -1,13 +1,13 @@
 ﻿using Configurator.Data;
-using ConfiguratorBackend.Models.Catalogue.IO;
+using ConfiguratorBackend.Models.Catalogue.PowerSupply;
 using ConfiguratorBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace ConfiguratorBackend.Controllers.Catalogue.IO
+namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
 {
-    [Route("api/IO/[controller]")]
+    [Route("api/PowerSupply/[controller]")]
     [ApiController]
     public class ConnectorsController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.IO
         public async Task<ActionResult<PaginatedList<ConnectorListItem>>> GetConnectors(int pageIndex = 1, int pageSize = 20)
         {
             return await PaginatedList<ConnectorListItem>.CreateAsync(
-                _context.IOConnectors
+                _context.PowerSupplyConnectors
                 .AsNoTracking()
                 .Select(connector => new ConnectorListItem(connector)),
                 pageIndex,
@@ -34,7 +34,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.IO
         [HttpGet("id/{id}")]
         public async Task<ActionResult<ConnectorDto>> GetConnector(int id)
         {
-            var connector = await _context.IOConnectors
+            var connector = await _context.PowerSupplyConnectors
                 .AsNoTracking()
                 .Where(e => e.ID == id)
                 .FirstOrDefaultAsync();
@@ -52,14 +52,14 @@ namespace ConfiguratorBackend.Controllers.Catalogue.IO
         {
             return new ConnectorParams
             {
-                Connectors = await _context.IOConnectors.AsNoTracking().ToListAsync(),
+                Connectors = await _context.PowerSupplyConnectors.AsNoTracking().ToListAsync(),
             };
         }
 
         [HttpPut("id/{id}")]
         public async Task<IActionResult> PutConnector(int id, ConnectorDbo connector)
         {
-            var connectorToUpdate = await _context.IOConnectors.FirstOrDefaultAsync(m => id == m.ID);
+            var connectorToUpdate = await _context.PowerSupplyConnectors.FirstOrDefaultAsync(m => id == m.ID);
 
             if (connectorToUpdate is null)
             {
@@ -73,8 +73,8 @@ namespace ConfiguratorBackend.Controllers.Catalogue.IO
 
             connectorToUpdate.Name = connector.Name;
 
-            _context.IOConnectors.Entry(connectorToUpdate).Collection(e => e.CompatibleConnectors).Load();
-            connectorToUpdate.CompatibleConnectors = await _context.IOConnectors.Where(e => connector.CompatibleConnectorIDs.Contains(e.ID)).ToListAsync();
+            _context.PowerSupplyConnectors.Entry(connectorToUpdate).Collection(e => e.CompatibleConnectors).Load();
+            connectorToUpdate.CompatibleConnectors = await _context.PowerSupplyConnectors.Where(e => connector.CompatibleConnectorIDs.Contains(e.ID)).ToListAsync();
 
             _context.Entry(connectorToUpdate).State = EntityState.Modified;
 
@@ -110,10 +110,10 @@ namespace ConfiguratorBackend.Controllers.Catalogue.IO
             var emptyConnector = new Connector
             {
                 Name = connector.Name,
-                CompatibleConnectors = await _context.IOConnectors.Where(e => connector.CompatibleConnectorIDs.Contains(e.ID)).ToListAsync(),
+                CompatibleConnectors = await _context.PowerSupplyConnectors.Where(e => connector.CompatibleConnectorIDs.Contains(e.ID)).ToListAsync(),
             };
 
-            _context.IOConnectors.Add(emptyConnector);
+            _context.PowerSupplyConnectors.Add(emptyConnector);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetConnector), new { id = emptyConnector.ID }, emptyConnector);
@@ -123,14 +123,14 @@ namespace ConfiguratorBackend.Controllers.Catalogue.IO
         [HttpDelete("id/{id}")]
         public async Task<IActionResult> DeleteConnector(int id)
         {
-            var connectorToDelete = await _context.IOConnectors.FirstOrDefaultAsync(m => id == m.ID);
+            var connectorToDelete = await _context.PowerSupplyConnectors.FirstOrDefaultAsync(m => id == m.ID);
 
             if (connectorToDelete is null)
             {
                 return NotFound();
             };
 
-            _context.IOConnectors.Remove(connectorToDelete);
+            _context.PowerSupplyConnectors.Remove(connectorToDelete);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -138,7 +138,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.IO
 
         private bool ConnectorExists(int id)
         {
-            return _context.IOConnectors.Any(e => id == e.ID);
+            return _context.PowerSupplyConnectors.Any(e => id == e.ID);
         }
 
         private async Task<bool> ConnectorIsValid(ConnectorDbo connector)
@@ -153,7 +153,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.IO
             {
                 foreach (var connectorID in connector.CompatibleConnectorIDs)
                 {
-                    if (!await _context.IOConnectors.AnyAsync(e => connectorID == e.ID))
+                    if (!await _context.PowerSupplyConnectors.AnyAsync(e => connectorID == e.ID))
                     {
                         return false;
                     }

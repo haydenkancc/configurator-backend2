@@ -52,7 +52,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
 
             if (!await ExpansionCardIsValid(expansionCard))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             expansionCardToUpdate.KeyID = expansionCard.KeyID;
@@ -87,7 +87,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
 
             if (!await ExpansionCardIsValid(expansionCard))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var emptyExpansionCard = new ExpansionCard

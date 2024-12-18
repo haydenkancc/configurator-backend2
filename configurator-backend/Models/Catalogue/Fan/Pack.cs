@@ -86,7 +86,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Fan
     [PrimaryKey(nameof(ComponentID))]
     public class Pack
     {
-        public int ComponentID { get; set; }
+        public required int ComponentID { get; set; }
         public required int Quantity { get; set; }
         public required int SizeID { get; set; }
         public required string Rpm { get; set; }
@@ -96,8 +96,8 @@ namespace ConfiguratorBackend.Models.Catalogue.Fan
         public required bool Pwm { get; set; }
 
         [ForeignKey(nameof(ComponentID))]
-        public required Component Component { get; set; } = null!;
-        public required Size Size { get; set; } = null!;
+        public Component Component { get; set; } = null!;
+        public Size Size { get; set; } = null!;
         public required ICollection<PackConnector> Connectors { get; set; }
     }
 }

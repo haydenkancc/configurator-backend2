@@ -76,8 +76,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Memory
         public required int FormFactorID { get; set; }
         [Required]
         public required int TypeID { get; set; }
-        [Required]
-        public required int CapacityID { get; set; }
+        public required int Capacity { get; set; }
         [Required]
         public required int ClockFrequency { get; set; }
         [Required]
@@ -102,7 +101,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Memory
     [PrimaryKey(nameof(ComponentID))]
     public class Kit
     {
-        public int ComponentID { get; set; }
+        public required int ComponentID { get; set; }
         public required int FormFactorID { get; set; }
         public required int TypeID { get; set; }
         public required int Capacity { get; set; }

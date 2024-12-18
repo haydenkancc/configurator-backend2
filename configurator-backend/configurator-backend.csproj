@@ -47,11 +47,7 @@
     <Folder Include="Controllers\Catalogue\Case\" />
     <Folder Include="Controllers\Catalogue\CentralProcessor\" />
     <Folder Include="Controllers\Catalogue\Cooler\" />
-    <Folder Include="Controllers\Catalogue\Fan\" />
-    <Folder Include="Controllers\Catalogue\GraphicsProcessor\" />
-    <Folder Include="Controllers\Catalogue\Memory\" />
     <Folder Include="Controllers\Catalogue\Motherboard\" />
-    <Folder Include="Controllers\Catalogue\PowerSupply\" />
     <Folder Include="Controllers\Catalogue\Storage\" />
   </ItemGroup>
 

@@ -58,7 +58,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.General
 
             if (!ManufacturerIsValid(manufacturer))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             manufacturerToUpdate.Name = manufacturer.Name;
@@ -90,7 +90,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.General
 
             if (!ManufacturerIsValid(manufacturer))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var emptyManufacturer = new Manufacturer

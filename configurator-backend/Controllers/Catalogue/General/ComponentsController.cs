@@ -9,12 +9,12 @@ namespace ConfiguratorBackend.Controllers.Catalogue.General
     {
         private readonly CatalogueContext _context;
 
-        protected ComponentsController(CatalogueContext context)
+        public ComponentsController(CatalogueContext context)
         {
             _context = context;
         }
 
-        protected async Task<ComponentParams> GetComponentParams()
+        public async Task<ComponentParams> GetComponentParams()
         {
             return new ComponentParams
             {
@@ -55,7 +55,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.General
 
             if (!await ComponentIsValid(component))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             componentToUpdate.SKU = component.SKU;
@@ -74,12 +74,12 @@ namespace ConfiguratorBackend.Controllers.Catalogue.General
             return NoContent();
         }
 
-        protected async Task<ActionResult<Component>> PostComponent(ComponentDbo component)
+        public async Task<ActionResult<Component>> PostComponent(ComponentDbo component)
         {
 
             if(!await ComponentIsValid(component))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var emptyComponent = new Component

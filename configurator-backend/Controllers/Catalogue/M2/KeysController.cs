@@ -69,7 +69,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
 
             if (!await KeyIsValid(key))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             keyToUpdate.Name = key.Name;
@@ -104,7 +104,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
 
             if (!await KeyIsValid(key))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var emptyKey = new Key

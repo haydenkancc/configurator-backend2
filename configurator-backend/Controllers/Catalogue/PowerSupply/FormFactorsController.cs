@@ -1,13 +1,13 @@
 ﻿using Configurator.Data;
-using ConfiguratorBackend.Models.Catalogue.M2;
+using ConfiguratorBackend.Models.Catalogue.PowerSupply;
 using ConfiguratorBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace ConfiguratorBackend.Controllers.Catalogue.M2
+namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
 {
-    [Route("api/M2/[controller]")]
+    [Route("api/PowerSupply/[controller]")]
     [ApiController]
     public class FormFactorsController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
         public async Task<ActionResult<PaginatedList<FormFactorListItem>>> GetFormFactors(int pageIndex = 1, int pageSize = 20)
         {
             return await PaginatedList<FormFactorListItem>.CreateAsync(
-                _context.M2FormFactors
+                _context.PowerSupplyFormFactors
                 .AsNoTracking()
                 .Select(formFactor => new FormFactorListItem(formFactor)),
                 pageIndex,
@@ -34,7 +34,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
         [HttpGet("id/{id}")]
         public async Task<ActionResult<FormFactorDto>> GetFormFactor(int id)
         {
-            var formFactor = await _context.M2FormFactors
+            var formFactor = await _context.PowerSupplyFormFactors
                 .AsNoTracking()
                 .Where(e => e.ID == id)
                 .FirstOrDefaultAsync();
@@ -50,7 +50,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
         [HttpPut("id/{id}")]
         public async Task<IActionResult> PutFormFactor(int id, FormFactorDbo formFactor)
         {
-            var formFactorToUpdate = await _context.M2FormFactors.FirstOrDefaultAsync(m => id == m.ID);
+            var formFactorToUpdate = await _context.PowerSupplyFormFactors.FirstOrDefaultAsync(m => id == m.ID);
 
             if (formFactorToUpdate is null)
             {
@@ -99,7 +99,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
                 Name = formFactor.Name,
             };
 
-            _context.M2FormFactors.Add(emptyFormFactor);
+            _context.PowerSupplyFormFactors.Add(emptyFormFactor);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetFormFactor), new { id = emptyFormFactor.ID }, emptyFormFactor);
@@ -109,14 +109,14 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
         [HttpDelete("id/{id}")]
         public async Task<IActionResult> DeleteFormFactor(int id)
         {
-            var formFactorToDelete = await _context.M2FormFactors.FirstOrDefaultAsync(m => id == m.ID);
+            var formFactorToDelete = await _context.PowerSupplyFormFactors.FirstOrDefaultAsync(m => id == m.ID);
 
             if (formFactorToDelete is null)
             {
                 return NotFound();
             };
 
-            _context.M2FormFactors.Remove(formFactorToDelete);
+            _context.PowerSupplyFormFactors.Remove(formFactorToDelete);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -124,7 +124,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
 
         private bool FormFactorExists(int id)
         {
-            return _context.M2FormFactors.Any(e => e.ID == id);
+            return _context.PowerSupplyFormFactors.Any(e => e.ID == id);
         }
 
         private bool FormFactorIsValid(FormFactorDbo formFactor)
