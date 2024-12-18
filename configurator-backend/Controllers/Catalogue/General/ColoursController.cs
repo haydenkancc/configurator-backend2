@@ -36,7 +36,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.General
         {
             var colour = await _context.Colours
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (colour is null)
@@ -124,7 +124,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.General
 
         private bool ColourExists(int id)
         {
-            return _context.Colours.Any(e => e.ID == id);
+            return _context.Colours.Any(e => id == e.ID);
         }
 
         private bool ColourIsValid(ColourDbo colour)

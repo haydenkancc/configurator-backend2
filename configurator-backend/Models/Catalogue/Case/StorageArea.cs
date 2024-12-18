@@ -3,6 +3,15 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.Case
 {
+    public class StorageAreaDto
+    {
+        public ICollection<DriveBayDto> DriveBays { get; set; }
+        
+        public StorageAreaDto(StorageArea area)
+        {
+            DriveBays = area.DriveBays.Select(e => new DriveBayDto(e)).ToList();
+        }
+    }
     public class StorageAreaDbo
     {
         [Required]
@@ -12,7 +21,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Case
     public class StorageArea
     {
         public int ID { get; set; }
-        public required int LayoutID { get; set; }
+        public int LayoutID { get; set; }
 
         public required ICollection<DriveBay> DriveBays { get; set; }
 

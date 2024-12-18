@@ -36,7 +36,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.IO
         {
             var connector = await _context.IOConnectors
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (connector is null)
@@ -52,7 +52,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.IO
         {
             return new ConnectorParams
             {
-                Connectors = await _context.IOConnectors.AsNoTracking().ToListAsync(),
+                Connectors = await _context.IOConnectors.AsNoTracking().Select(e => new ConnectorDtoSimple(e)).ToListAsync(),
             };
         }
 

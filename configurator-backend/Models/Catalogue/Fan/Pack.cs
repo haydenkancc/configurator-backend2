@@ -28,14 +28,14 @@ namespace ConfiguratorBackend.Models.Catalogue.Fan
     public class PackParams
     {
         public required ComponentParams Component { get; set; }
-        public required ICollection<Size> Sizes { get; set; }
-        public required ICollection<IO.Connector> Connectors { get; set; }
+        public required ICollection<SizeDto> Sizes { get; set; }
+        public required ICollection<IO.ConnectorDtoSimple> Connectors { get; set; }
     }
 
     public class PackDto
     {
         public ComponentDto Component { get; set; }
-        public Size Size { get; set; }
+        public SizeDto Size { get; set; }
         public int Quantity { get; set; }
         public string Rpm { get; set; }
         public string Airflow { get; set; }
@@ -48,7 +48,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Fan
         public PackDto(ComponentDto component, Pack pack)
         {
             Component = component;
-            Size = pack.Size;
+            Size = new SizeDto(pack.Size);
             Quantity = pack.Quantity;
             Rpm = pack.Rpm;
             Airflow = pack.Airflow;

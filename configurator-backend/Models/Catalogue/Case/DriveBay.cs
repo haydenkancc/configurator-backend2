@@ -5,6 +5,17 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.Case
 {
+    public class DriveBayDto
+    {
+        public Storage.FormFactorDto FormFactor { get; set; }
+        public int DriveCount { get; set; }
+
+        public DriveBayDto(DriveBay driveBay)
+        {
+            FormFactor = new Storage.FormFactorDto(driveBay.FormFactor);
+            DriveCount = driveBay.DriveCount;
+        }
+    }
     public class DriveBayDbo
     {
         [Required]

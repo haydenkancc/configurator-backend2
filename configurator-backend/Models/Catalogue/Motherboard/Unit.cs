@@ -24,32 +24,32 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
     public class UnitParams
     {
         public required ComponentParams Component { get; set; }
-        public required ICollection<IO.Connector> IOConnectors { get; set; }
-        public required ICollection<M2.SlotListItemSimple> M2Slots { get; set; }
-        public required ICollection<Pcie.SlotListItemSimple> PcieSlots { get; set; }
-        public required ICollection<PowerSupply.Connector> PowerSupplyConnectors { get; set; }
-        public required ICollection<Chipset> Chipsets { get; set; }
-        public required ICollection<FormFactor> FormFactors { get; set; }
-        public required ICollection<CentralProcessor.Channel> Channels { get; set; }
-        public required ICollection<CentralProcessor.Series> Series { get; set; }
-        public required ICollection<CentralProcessor.UnitListItemSimple> Processors { get; set; }
-        public required ICollection<CentralProcessor.CoreFamily> CoreFamilies { get; set; }
-        public required ICollection<Memory.FormFactor> MemoryFormFactors { get; set; }
-        public required ICollection<Memory.Type> MemoryTypes { get; set; }
+        public required ICollection<IO.ConnectorDtoSimple> IOConnectors { get; set; }
+        public required ICollection<M2.SlotDtoSimple> M2Slots { get; set; }
+        public required ICollection<Pcie.SlotDtoSimple> PcieSlots { get; set; }
+        public required ICollection<PowerSupply.ConnectorDtoSimple> PowerSupplyConnectors { get; set; }
+        public required ICollection<ChipsetDto> Chipsets { get; set; }
+        public required ICollection<FormFactorDto> FormFactors { get; set; }
+        public required ICollection<CentralProcessor.ChannelDto> Channels { get; set; }
+        public required ICollection<CentralProcessor.SeriesDto> Series { get; set; }
+        public required ICollection<CentralProcessor.UnitDtoSimple> Processors { get; set; }
+        public required ICollection<CentralProcessor.CoreFamilyDto> CoreFamilies { get; set; }
+        public required ICollection<Memory.FormFactorDto> MemoryFormFactors { get; set; }
+        public required ICollection<Memory.TypeDto> MemoryTypes { get; set; }
     }
 
     public class UnitDto
     {
         public ComponentDto Component { get; set; }
-        public ICollection<UnitIOConnector> IOConnectors { get; set; }
-        public ICollection<UnitM2Slot> M2Slots { get; set; }
-        public ICollection<UnitPcieSlot> PcieSlots { get; set; }
-        public ICollection<UnitPowerSupplyConnector> PowerSupplyConnectors { get; set; }
-        public Chipset Chipset { get; set; }
-        public FormFactor FormFactor { get; set; }
-        public CentralProcessor.Channel Channel { get; set; }
-        public Memory.FormFactor MemoryFormFactor { get; set; }
-        public Memory.Type MemoryType { get; set; }
+        public ICollection<UnitIOConnectorDto> IOConnectors { get; set; }
+        public ICollection<UnitM2SlotDto> M2Slots { get; set; }
+        public ICollection<UnitPcieSlotDto> PcieSlots { get; set; }
+        public ICollection<UnitPowerSupplyConnectorDto> PowerSupplyConnectors { get; set; }
+        public ChipsetDto Chipset { get; set; }
+        public FormFactorDto FormFactor { get; set; }
+        public CentralProcessor.ChannelDto Channel { get; set; }
+        public Memory.FormFactorDto MemoryFormFactor { get; set; }
+        public Memory.TypeDto MemoryType { get; set; }
         public int MemoryTotalCapacity { get; set; }
         public int MemorySlotCount { get; set; }
         public bool SupportECCMemory { get; set; }
@@ -61,16 +61,16 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
         {
             Component = component;
 
-            IOConnectors = unit.IOConnectors;
-            M2Slots = unit.M2Slots;
-            PcieSlots = unit.PcieSlots;
-            PowerSupplyConnectors = unit.PowerSupplyConnectors;
+            IOConnectors = unit.IOConnectors.Select(e => new UnitIOConnectorDto(e)).ToList();
+            M2Slots = unit.M2Slots.Select(e => new UnitM2SlotDto(e)).ToList();
+            PcieSlots = unit.PcieSlots.Select(e => new UnitPcieSlotDto(e)).ToList();
+            PowerSupplyConnectors = unit.PowerSupplyConnectors.Select(e => new UnitPowerSupplyConnectorDto(e)).ToList();
 
-            Chipset = unit.Chipset;
-            FormFactor = unit.FormFactor;
-            Channel = unit.Channel;
-            MemoryFormFactor = unit.MemoryFormFactor;
-            MemoryType = unit.MemoryType;
+            Chipset = new ChipsetDto(unit.Chipset);
+            FormFactor = new FormFactorDto(unit.FormFactor);
+            Channel = new CentralProcessor.ChannelDto(unit.Channel);
+            MemoryFormFactor = new Memory.FormFactorDto(unit.MemoryFormFactor);
+            MemoryType = new Memory.TypeDto(unit.MemoryType);
             MemoryTotalCapacity = unit.MemoryTotalCapacity;
             MemorySlotCount = unit.MemorySlotCount;
             SupportECCMemory = unit.SupportECCMemory;
@@ -103,7 +103,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
         [Required]
         public required int MemoryTypeID { get; set; }
         [Required]
-        public required int MemoryTotalCapacityID { get; set; }
+        public required int MemoryTotalCapacity { get; set; }
         [Required]
         public required int MemorySlotCount { get; set; }
         [Required]

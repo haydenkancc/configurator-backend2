@@ -2,6 +2,7 @@
 using ConfiguratorBackend.Models.Catalogue.General;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 
 namespace ConfiguratorBackend.Controllers.Catalogue.General
 {
@@ -18,13 +19,9 @@ namespace ConfiguratorBackend.Controllers.Catalogue.General
         {
             return new ComponentParams
             {
-                Manufacturers = await _context.Manufacturers
-                .AsNoTracking()
-                .ToListAsync(),
+                Manufacturers = await _context.Manufacturers.AsNoTracking().Select(e => new ManufacturerDto(e)).ToListAsync(),
 
-                Colours = await _context.Colours
-                .AsNoTracking()
-                .ToListAsync(),
+                Colours = await _context.Colours.AsNoTracking().Select(e => new ColourDto(e)).ToListAsync(),
             };
         }
 
@@ -46,7 +43,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.General
 
         public async Task<IActionResult> PutComponent(int id, ComponentDbo component)
         {
-            var componentToUpdate = await _context.Components.FirstOrDefaultAsync(e => e.ID == id);
+            var componentToUpdate = await _context.Components.FirstOrDefaultAsync(e => id == e.ID);
 
             if (componentToUpdate is null)
             {

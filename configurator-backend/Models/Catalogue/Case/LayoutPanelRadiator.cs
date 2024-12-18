@@ -4,6 +4,16 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.Case
 {
+    public class LayoutPanelRadiatorDto
+    {
+        public Cooler.RadiatorSizeDto RadiatorSize { get; set; }
+
+        public LayoutPanelRadiatorDto(LayoutPanelRadiator layoutPanelRadiator)
+        {
+            RadiatorSize = new Cooler.RadiatorSizeDto(layoutPanelRadiator.RadiatorSize);
+        }
+    }
+
     public class LayoutPanelRadiatorDbo
     {
         [Required]

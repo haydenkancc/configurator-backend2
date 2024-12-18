@@ -634,7 +634,7 @@ namespace ConfiguratorBackend.Migrations
                 {
                     ComponentID = table.Column<int>(type: "int", nullable: false),
                     PowerSupplyFormFactorID = table.Column<int>(type: "int", nullable: false),
-                    PrimaryFormFactorID = table.Column<int>(type: "int", nullable: false),
+                    PrimaryMotherboardFormFactorID = table.Column<int>(type: "int", nullable: false),
                     SizeID = table.Column<int>(type: "int", nullable: false),
                     SidePanelMaterialID = table.Column<int>(type: "int", nullable: false),
                     ExternalVolume = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
@@ -664,8 +664,8 @@ namespace ConfiguratorBackend.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CaseUnits_MotherboardFormFactors_PrimaryFormFactorID",
-                        column: x => x.PrimaryFormFactorID,
+                        name: "FK_CaseUnits_MotherboardFormFactors_PrimaryMotherboardFormFactorID",
+                        column: x => x.PrimaryMotherboardFormFactorID,
                         principalTable: "MotherboardFormFactors",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
@@ -889,8 +889,8 @@ namespace ConfiguratorBackend.Migrations
                 columns: table => new
                 {
                     ComponentID = table.Column<int>(type: "int", nullable: false),
-                    ConnectionInterfaceID = table.Column<int>(type: "int", nullable: false),
                     Location = table.Column<int>(type: "int", nullable: false),
+                    ConnectionInterfaceID = table.Column<int>(type: "int", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     Cache = table.Column<int>(type: "int", nullable: false),
                     ReadSpeed = table.Column<int>(type: "int", nullable: false),
@@ -1433,7 +1433,8 @@ namespace ConfiguratorBackend.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MicroarchitectureID = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CodeName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AlternateName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UnitM2SlotUnitID = table.Column<int>(type: "int", nullable: true),
                     UnitPcieSlotUnitID = table.Column<int>(type: "int", nullable: true)
                 },
@@ -1599,17 +1600,17 @@ namespace ConfiguratorBackend.Migrations
                     SupportNonECCMemory = table.Column<bool>(type: "bit", nullable: false),
                     SupportBufferedMemory = table.Column<bool>(type: "bit", nullable: false),
                     SupportUnbufferedMemory = table.Column<bool>(type: "bit", nullable: false),
-                    CoreCount = table.Column<int>(type: "int", nullable: false),
+                    PerformanceCoreCount = table.Column<int>(type: "int", nullable: false),
                     ThreadCount = table.Column<int>(type: "int", nullable: false),
                     PerformanceCoreClock = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
                     PerformanceCoreBoostClock = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
                     HasEfficiencyCores = table.Column<bool>(type: "bit", nullable: false),
-                    EfficiencyCoreClock = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
-                    EfficiencyCoreBoostClock = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
+                    EfficiencyCoreCount = table.Column<int>(type: "int", nullable: true),
+                    EfficiencyCoreClock = table.Column<decimal>(type: "decimal(6,2)", nullable: true),
+                    EfficiencyCoreBoostClock = table.Column<decimal>(type: "decimal(6,2)", nullable: true),
                     L2Cache = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     L3Cache = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     SimultaneousMultithreading = table.Column<bool>(type: "bit", nullable: false),
-                    MicroarchitectureID = table.Column<int>(type: "int", nullable: true),
                     SizeID = table.Column<int>(type: "int", nullable: true),
                     UnitM2SlotUnitID = table.Column<int>(type: "int", nullable: true),
                     UnitPcieSlotUnitID = table.Column<int>(type: "int", nullable: true)
@@ -1629,11 +1630,6 @@ namespace ConfiguratorBackend.Migrations
                         principalTable: "CentralProcessorCoreFamilies",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CentralProcessorUnits_CentralProcessorMicroarchitectures_MicroarchitectureID",
-                        column: x => x.MicroarchitectureID,
-                        principalTable: "CentralProcessorMicroarchitectures",
-                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_CentralProcessorUnits_CentralProcessorSeries_SeriesID",
                         column: x => x.SeriesID,
@@ -1739,9 +1735,9 @@ namespace ConfiguratorBackend.Migrations
                 column: "PowerSupplyFormFactorID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CaseUnits_PrimaryFormFactorID",
+                name: "IX_CaseUnits_PrimaryMotherboardFormFactorID",
                 table: "CaseUnits",
-                column: "PrimaryFormFactorID");
+                column: "PrimaryMotherboardFormFactorID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CaseUnits_SidePanelMaterialID",
@@ -1760,15 +1756,15 @@ namespace ConfiguratorBackend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_CentralProcessorCoreFamilies_CodeName",
+                table: "CentralProcessorCoreFamilies",
+                column: "CodeName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CentralProcessorCoreFamilies_MicroarchitectureID",
                 table: "CentralProcessorCoreFamilies",
                 column: "MicroarchitectureID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CentralProcessorCoreFamilies_Name",
-                table: "CentralProcessorCoreFamilies",
-                column: "Name",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_CentralProcessorCoreFamilies_UnitM2SlotUnitID",
@@ -1817,11 +1813,6 @@ namespace ConfiguratorBackend.Migrations
                 name: "IX_CentralProcessorUnits_CoreFamilyID",
                 table: "CentralProcessorUnits",
                 column: "CoreFamilyID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CentralProcessorUnits_MicroarchitectureID",
-                table: "CentralProcessorUnits",
-                column: "MicroarchitectureID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CentralProcessorUnits_SeriesID",

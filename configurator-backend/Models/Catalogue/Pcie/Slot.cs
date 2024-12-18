@@ -4,22 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.Pcie
 {
-    public class SlotListItemSimple
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-
-        public SlotListItemSimple(Slot slot)
-        {
-            ID = slot.ID;
-            Name = $"{slot.Version.Name} x{slot.PhysicalSize.LaneCount}{(slot.PhysicalSize.LaneCount != slot.LaneSize.LaneCount ? $" @x{slot.LaneSize.LaneCount}" : "")}";
-        }
-    }
 
     public class SlotParams
     {
-        public required ICollection<Size> Sizes { get; set; }
-        public required ICollection<Version> Versions { get; set; }
+        public required ICollection<SizeDto> Sizes { get; set; }
+        public required ICollection<VersionDto> Versions { get; set; }
     }
 
     public class SlotListItem
@@ -36,19 +25,31 @@ namespace ConfiguratorBackend.Models.Catalogue.Pcie
         }
     }
 
+    public class SlotDtoSimple
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+
+        public SlotDtoSimple(Slot slot)
+        {
+            ID = slot.ID;
+            Name = $"{slot.Version.Name} x{slot.PhysicalSize.LaneCount}{(slot.PhysicalSize.LaneCount != slot.LaneSize.LaneCount ? $" @x{slot.LaneSize.LaneCount}" : "")}";
+        }
+    }
+
     public class SlotDto
     {
         public int ID { get; set; }
-        public Size LaneSize { get; set; }
-        public Size PhysicalSize { get; set; }
-        public Version Version { get; set; }
+        public SizeDto LaneSize { get; set; }
+        public SizeDto PhysicalSize { get; set; }
+        public VersionDto Version { get; set; }
 
         public SlotDto(Slot pcieSlot)
         {
             ID = pcieSlot.ID;
-            LaneSize = pcieSlot.LaneSize;
-            PhysicalSize = pcieSlot.PhysicalSize;
-            Version = pcieSlot.Version;
+            LaneSize = new SizeDto(pcieSlot.LaneSize);
+            PhysicalSize = new SizeDto(pcieSlot.PhysicalSize);
+            Version = new VersionDto(pcieSlot.Version);
         }
     }
 

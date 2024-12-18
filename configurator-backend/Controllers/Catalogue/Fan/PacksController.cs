@@ -21,6 +21,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Fan
             _componentsController = componentsController;
         }
 
+        [HttpGet]
         public async Task<ActionResult<PaginatedList<PackListItem>>> GetPacks(int pageIndex = 1, int pageSize = 20)
         {
             return await PaginatedList<PackListItem>.CreateAsync(
@@ -28,6 +29,8 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Fan
                 .AsNoTracking()
                 .Include(unit => unit.Component)
                 .ThenInclude(component => component.Manufacturer)
+                .Include(unit => unit.Component)
+                .ThenInclude(component => component.Colour)
                 .Include(pack => pack.Size)
                 .Select(pack => new PackListItem(pack)),
                 pageIndex,
@@ -68,13 +71,8 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Fan
             {
                 Component = await _componentsController.GetComponentParams(),
 
-                Sizes = await _context.FanSizes
-                .AsNoTracking()
-                .ToListAsync(),
-
-                Connectors = await _context.IOConnectors
-                .AsNoTracking()
-                .ToListAsync(),
+                Sizes = await _context.FanSizes.AsNoTracking().Select(e => new SizeDto(e)).ToListAsync(),
+                Connectors = await _context.IOConnectors.AsNoTracking().Select(e => new Models.Catalogue.IO.ConnectorDtoSimple(e)).ToListAsync(),
             };
 
             return packParams;

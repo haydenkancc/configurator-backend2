@@ -4,6 +4,18 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.Case
 {
+    public class LayoutPanelFanDto
+    {
+        public Fan.SizeDto FanSize { get; set; }
+        public int FanCount { get; set; }
+
+        public LayoutPanelFanDto(LayoutPanelFan layoutPanelFan)
+        {
+            FanSize = new Fan.SizeDto(layoutPanelFan.FanSize);
+            FanCount = layoutPanelFan.FanCount;
+        }
+    }
+
     public class LayoutPanelFanDbo
     {
         [Required]

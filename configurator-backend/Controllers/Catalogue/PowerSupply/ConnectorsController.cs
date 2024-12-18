@@ -36,7 +36,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
         {
             var connector = await _context.PowerSupplyConnectors
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (connector is null)
@@ -52,7 +52,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
         {
             return new ConnectorParams
             {
-                Connectors = await _context.PowerSupplyConnectors.AsNoTracking().ToListAsync(),
+                Connectors = await _context.PowerSupplyConnectors.AsNoTracking().Select(e => new ConnectorDtoSimple(e)).ToListAsync(),
             };
         }
 

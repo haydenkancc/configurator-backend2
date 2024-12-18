@@ -36,7 +36,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Memory
         {
             var formFactor = await _context.MemoryFormFactors
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (formFactor is null)
@@ -124,7 +124,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Memory
 
         private bool FormFactorExists(int id)
         {
-            return _context.MemoryFormFactors.Any(e => e.ID == id);
+            return _context.MemoryFormFactors.Any(e => id == e.ID);
         }
 
         private bool FormFactorIsValid(FormFactorDbo formFactor)

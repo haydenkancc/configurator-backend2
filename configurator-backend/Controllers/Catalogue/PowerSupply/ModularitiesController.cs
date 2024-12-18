@@ -36,7 +36,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
         {
             var modularity = await _context.PowerSupplyModularities
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (modularity is null)
@@ -124,7 +124,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
 
         private bool ModularityExists(int id)
         {
-            return _context.PowerSupplyModularities.Any(e => e.ID == id);
+            return _context.PowerSupplyModularities.Any(e => id == e.ID);
         }
 
         private bool ModularityIsValid(ModularityDbo modularity)

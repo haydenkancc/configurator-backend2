@@ -34,6 +34,20 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
         public Location Location { get; set; }
         public CaseUnitDto? CaseUnit { get; set; }
         public M2UnitDto? M2Unit { get; set; }
+
+        public UnitDto(Location location, CaseUnitDto caseUnit)
+        {
+            Location = location;
+            CaseUnit = caseUnit;
+            M2Unit = null;
+        }
+
+        public UnitDto(Location location,  M2UnitDto m2Unit)
+        {
+            Location = location;
+            M2Unit = M2Unit;
+            CaseUnit = null;
+        }
     }
 
     public abstract class BaseUnitDto
@@ -41,7 +55,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
         public ComponentDto Component { get; set; }
         public DriveDto Drive { get; set; }
 
-        public ConnectionInterface ConnectionInterface { get; set; }
+        public ConnectionInterfaceDto ConnectionInterface { get; set; }
         public int Capacity { get; set; }
         public int Cache { get; set; }
         public int ReadSpeed { get; set; }
@@ -51,7 +65,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
         {
             Component = component;
             Drive = drive;
-            ConnectionInterface = unit.ConnectionInterface;
+            ConnectionInterface = new ConnectionInterfaceDto(unit.ConnectionInterface);
             Capacity = unit.Capacity;
             Cache = unit.Cache;
             ReadSpeed = unit.ReadSpeed;
@@ -64,7 +78,10 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
         public required ComponentParams Component { get; set; }
         public required M2.ExpansionCardParams ExpansionCard { get; set; }
         public required DriveParams Drive { get; set; }
-        public required ICollection<ConnectionInterface> ConnectionInterfaces { get; set; }
+        public required ICollection<ConnectionInterfaceDto> ConnectionInterfaces { get; set; }
+        public required ICollection<FormFactorDto> FormFactors { get; set; }
+        public required ICollection<IO.ConnectorDtoSimple> IOConnectors { get; set; }
+        public required ICollection<PowerSupply.ConnectorDtoSimple> PowerSupplyConnectors { get; set; }
     }
 
     public class UnitDbo
@@ -99,15 +116,15 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
     [PrimaryKey(nameof(ComponentID))]
     public abstract class Unit
     {
-        public int ComponentID { get; set; }
-        public required int ConnectionInterfaceID { get; set; }
+        public required int ComponentID { get; set; }
         public Location Location { get; set; }
+        public required int ConnectionInterfaceID { get; set; }
 
         public required int Capacity { get; set; }
         public required int Cache { get; set; }
         public required int ReadSpeed { get; set; }
         public required int WriteSpeed { get; set; }
-        public required ConnectionInterface ConnectionInterface { get; set; }
+        public ConnectionInterface ConnectionInterface { get; set; } = null!;
         public required Drive Drive { get; set; }
 
         [ForeignKey(nameof(ComponentID))]

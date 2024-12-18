@@ -4,11 +4,11 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
 {
     public class SolidStateDriveDto : BaseDriveDto
     {
-        public NandType NandType { get; set; }
+        public NandTypeDto NandType { get; set; }
 
         public SolidStateDriveDto(SolidStateDrive drive) : base(drive)
         {
-            NandType = drive.NandType;
+            NandType = new NandTypeDto(drive.NandType);
         }
 
     }

@@ -4,6 +4,19 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.PowerSupply
 {
+    public class UnitConnectorDto
+    {
+        public ConnectorDtoSimple Connector { get; set; }
+        public int ConnectorCount { get; set; }
+        public int SplitCount { get; set; }
+
+        public UnitConnectorDto(UnitConnector unitConnector)
+        {
+            Connector = new ConnectorDtoSimple(unitConnector.Connector);
+            ConnectorCount = unitConnector.ConnectorCount;
+            SplitCount = unitConnector.SplitCount;
+        }
+    }
     public class UnitConnectorDbo
     {
         [Required]

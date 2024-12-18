@@ -18,20 +18,32 @@ namespace ConfiguratorBackend.Models.Catalogue.IO
 
     public class ConnectorParams
     {
-        public required ICollection<Connector> Connectors { get; set; }
+        public required ICollection<ConnectorDtoSimple> Connectors { get; set; }
     }
 
     public class ConnectorDto
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public ICollection<Connector> CompatibleConnectors { get; set; }
+        public ICollection<ConnectorDtoSimple> CompatibleConnectors { get; set; }
 
         public ConnectorDto(Connector connector)
         {
             ID = connector.ID;
             Name = connector.Name;
-            CompatibleConnectors = [.. connector.CompatibleConnectors];
+            CompatibleConnectors = connector.CompatibleConnectors.Select(e => new ConnectorDtoSimple(e)).ToList();
+        }
+    }
+    
+    public class ConnectorDtoSimple
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+
+        public ConnectorDtoSimple(Connector connector)
+        {
+            ID = connector.ID;
+            Name = connector.Name;
         }
     }
 

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-sidelengthspace ConfiguratorBackend.Controllers.Catalogue.Fan
+namespace ConfiguratorBackend.Controllers.Catalogue.Fan
 {
     [Route("api/Fan/[controller]")]
     [ApiController]
@@ -36,7 +36,7 @@ sidelengthspace ConfiguratorBackend.Controllers.Catalogue.Fan
         {
             var size = await _context.FanSizes
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (size is null)
@@ -124,7 +124,7 @@ sidelengthspace ConfiguratorBackend.Controllers.Catalogue.Fan
 
         private bool SizeExists(int id)
         {
-            return _context.FanSizes.Any(e => e.ID == id);
+            return _context.FanSizes.Any(e => id == e.ID);
         }
 
         private bool SizeIsValid(SizeDbo size)

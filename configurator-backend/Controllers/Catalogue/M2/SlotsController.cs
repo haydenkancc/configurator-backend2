@@ -37,7 +37,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
         {
             var slot = await _context.M2Slots
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (slot is null)
@@ -53,10 +53,10 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
         {
             return new SlotParams
             {
-                Keys = await _context.M2Keys.AsNoTracking().ToListAsync(),
-                FormFactors = await _context.M2FormFactors.AsNoTracking().ToListAsync(),
-                LaneSizes = await _context.PcieSizes.AsNoTracking().ToListAsync(),
-                Versions = await _context.PcieVersions.AsNoTracking().ToListAsync(),
+                Keys = await _context.M2Keys.AsNoTracking().Select(e => new KeyDtoSimple(e)).ToListAsync(),
+                FormFactors = await _context.M2FormFactors.AsNoTracking().Select(e => new FormFactorDto(e)).ToListAsync(),
+                LaneSizes = await _context.PcieSizes.AsNoTracking().Select(e => new Models.Catalogue.Pcie.SizeDto(e)).ToListAsync(),
+                Versions = await _context.PcieVersions.AsNoTracking().Select(e => new Models.Catalogue.Pcie.VersionDto(e)).ToListAsync(),
             };
         }
 

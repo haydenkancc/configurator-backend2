@@ -28,9 +28,9 @@ namespace ConfiguratorBackend.Models.Catalogue.GraphicsCard
     {
         public ComponentDto Component { get; set; }
         public Pcie.ExpansionCardDto ExpansionCard { get; set; }
-        public ICollection<Configuration> Configurations { get; set; }
-        public Chipset Chipset { get; set; }
-        public Memory.Type MemoryType { get; set; }
+        public ICollection<ConfigurationDto> Configurations { get; set; }
+        public ChipsetDto Chipset { get; set; }
+        public Memory.TypeDto MemoryType { get; set; }
         public decimal Length { get; set; }
         public decimal Width { get; set; }
         public decimal Height { get; set; }
@@ -46,9 +46,9 @@ namespace ConfiguratorBackend.Models.Catalogue.GraphicsCard
         {
             Component = component;
             ExpansionCard = expansionCard;
-            Configurations = unit.Configurations;
-            Chipset = unit.Chipset;
-            MemoryType = unit.MemoryType;
+            Configurations = unit.Configurations.Select(e => new ConfigurationDto(e)).ToList();
+            Chipset = new ChipsetDto(unit.Chipset);
+            MemoryType = new Memory.TypeDto(unit.MemoryType);
             Length = unit.Length;
             Width = unit.Width;
             Height = unit.Height;
@@ -65,22 +65,24 @@ namespace ConfiguratorBackend.Models.Catalogue.GraphicsCard
     {
         public required ComponentParams Component { get; set; }
         public required Pcie.ExpansionCardParams ExpansionCard { get; set; }
-        public required ICollection<Chipset> Chipsets { get; set; }
-        public required ICollection<Memory.Type> MemoryTypes { get; set; }
-        public required ICollection<PowerSupply.Connector> Connectors { get; set; }
+        public required ICollection<ChipsetDto> Chipsets { get; set; }
+        public required ICollection<Memory.TypeDto> MemoryTypes { get; set; }
+        public required ICollection<PowerSupply.ConnectorDtoSimple> Connectors { get; set; }
     }
 
     public class UnitDbo
     {
         [Required]
+        public required ComponentDbo Component { get; set; } 
+        [Required]
         public required Pcie.ExpansionCardDbo ExpansionCard { get; set; }
         [Required]
         public required int ChipsetID { get; set; }
         [Required]
-        public required int MemoryCapacityID { get; set; }
-        [Required]
         public required int MemoryTypeID { get; set; }
 
+        [Required]
+        public required int MemoryCapacity { get; set; }
         [Required]
         public required int Length { get; set; }
         [Required]
@@ -105,8 +107,8 @@ namespace ConfiguratorBackend.Models.Catalogue.GraphicsCard
     [PrimaryKey(nameof(ComponentID))]
     public class Unit
     {
-        public int ComponentID { get; set; }
-        public int ExpansionCardID { get; set; }
+        public required int ComponentID { get; set; }
+        public required int ExpansionCardID { get; set; }
         public required int ChipsetID { get; set; }
         [Column(TypeName = "decimal(8,2)")]
         public required decimal Length { get; set; }

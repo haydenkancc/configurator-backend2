@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConfiguratorBackend.Migrations
 {
     [DbContext(typeof(CatalogueContext))]
-    [Migration("20241217204329_CreateDatabase")]
+    [Migration("20241218202406_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
@@ -234,7 +234,7 @@ namespace ConfiguratorBackend.Migrations
                     b.Property<int>("PowerSupplyFormFactorID")
                         .HasColumnType("int");
 
-                    b.Property<int>("PrimaryFormFactorID")
+                    b.Property<int>("PrimaryMotherboardFormFactorID")
                         .HasColumnType("int");
 
                     b.Property<int>("SidePanelMaterialID")
@@ -250,7 +250,7 @@ namespace ConfiguratorBackend.Migrations
 
                     b.HasIndex("PowerSupplyFormFactorID");
 
-                    b.HasIndex("PrimaryFormFactorID");
+                    b.HasIndex("PrimaryMotherboardFormFactorID");
 
                     b.HasIndex("SidePanelMaterialID");
 
@@ -323,12 +323,16 @@ namespace ConfiguratorBackend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("MicroarchitectureID")
-                        .HasColumnType("int");
+                    b.Property<string>("AlternateName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("CodeName")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("MicroarchitectureID")
+                        .HasColumnType("int");
 
                     b.Property<int?>("UnitM2SlotUnitID")
                         .HasColumnType("int");
@@ -338,10 +342,10 @@ namespace ConfiguratorBackend.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("MicroarchitectureID");
-
-                    b.HasIndex("Name")
+                    b.HasIndex("CodeName")
                         .IsUnique();
+
+                    b.HasIndex("MicroarchitectureID");
 
                     b.HasIndex("UnitM2SlotUnitID");
 
@@ -431,17 +435,17 @@ namespace ConfiguratorBackend.Migrations
                     b.Property<bool>("CoolerIncluded")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CoreCount")
-                        .HasColumnType("int");
-
                     b.Property<int>("CoreFamilyID")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("EfficiencyCoreBoostClock")
+                    b.Property<decimal?>("EfficiencyCoreBoostClock")
                         .HasColumnType("decimal(6,2)");
 
-                    b.Property<decimal>("EfficiencyCoreClock")
+                    b.Property<decimal?>("EfficiencyCoreClock")
                         .HasColumnType("decimal(6,2)");
+
+                    b.Property<int?>("EfficiencyCoreCount")
+                        .HasColumnType("int");
 
                     b.Property<bool>("HasEfficiencyCores")
                         .HasColumnType("bit");
@@ -458,14 +462,14 @@ namespace ConfiguratorBackend.Migrations
                     b.Property<int>("MaxTotalMemoryCapacity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MicroarchitectureID")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("PerformanceCoreBoostClock")
                         .HasColumnType("decimal(6,2)");
 
                     b.Property<decimal>("PerformanceCoreClock")
                         .HasColumnType("decimal(6,2)");
+
+                    b.Property<int>("PerformanceCoreCount")
+                        .HasColumnType("int");
 
                     b.Property<int>("SeriesID")
                         .HasColumnType("int");
@@ -508,8 +512,6 @@ namespace ConfiguratorBackend.Migrations
                     b.HasIndex("ChannelID");
 
                     b.HasIndex("CoreFamilyID");
-
-                    b.HasIndex("MicroarchitectureID");
 
                     b.HasIndex("SeriesID");
 
@@ -1956,9 +1958,9 @@ namespace ConfiguratorBackend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ConfiguratorBackend.Models.Catalogue.Motherboard.FormFactor", "PrimaryFormFactor")
+                    b.HasOne("ConfiguratorBackend.Models.Catalogue.Motherboard.FormFactor", "PrimaryMotherboardFormFactor")
                         .WithMany("CasesWithAsPrimary")
-                        .HasForeignKey("PrimaryFormFactorID")
+                        .HasForeignKey("PrimaryMotherboardFormFactorID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1978,7 +1980,7 @@ namespace ConfiguratorBackend.Migrations
 
                     b.Navigation("PowerSupplyFormFactor");
 
-                    b.Navigation("PrimaryFormFactor");
+                    b.Navigation("PrimaryMotherboardFormFactor");
 
                     b.Navigation("SidePanelMaterial");
 
@@ -2072,10 +2074,6 @@ namespace ConfiguratorBackend.Migrations
                         .HasForeignKey("CoreFamilyID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ConfiguratorBackend.Models.Catalogue.CentralProcessor.Microarchitecture", null)
-                        .WithMany("Units")
-                        .HasForeignKey("MicroarchitectureID");
 
                     b.HasOne("ConfiguratorBackend.Models.Catalogue.CentralProcessor.Series", "Series")
                         .WithMany("Units")
@@ -2187,7 +2185,7 @@ namespace ConfiguratorBackend.Migrations
                         .HasForeignKey("ColourID");
 
                     b.HasOne("ConfiguratorBackend.Models.Catalogue.General.Manufacturer", "Manufacturer")
-                        .WithMany()
+                        .WithMany("Components")
                         .HasForeignKey("ManufacturerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2845,8 +2843,6 @@ namespace ConfiguratorBackend.Migrations
             modelBuilder.Entity("ConfiguratorBackend.Models.Catalogue.CentralProcessor.Microarchitecture", b =>
                 {
                     b.Navigation("CoreFamilies");
-
-                    b.Navigation("Units");
                 });
 
             modelBuilder.Entity("ConfiguratorBackend.Models.Catalogue.CentralProcessor.Series", b =>
@@ -2884,6 +2880,11 @@ namespace ConfiguratorBackend.Migrations
                 });
 
             modelBuilder.Entity("ConfiguratorBackend.Models.Catalogue.General.Colour", b =>
+                {
+                    b.Navigation("Components");
+                });
+
+            modelBuilder.Entity("ConfiguratorBackend.Models.Catalogue.General.Manufacturer", b =>
                 {
                     b.Navigation("Components");
                 });

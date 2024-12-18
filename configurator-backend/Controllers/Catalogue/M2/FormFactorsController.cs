@@ -36,7 +36,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
         {
             var formFactor = await _context.M2FormFactors
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (formFactor is null)
@@ -124,7 +124,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
 
         private bool FormFactorExists(int id)
         {
-            return _context.M2FormFactors.Any(e => e.ID == id);
+            return _context.M2FormFactors.Any(e => id == e.ID);
         }
 
         private bool FormFactorIsValid(FormFactorDbo formFactor)

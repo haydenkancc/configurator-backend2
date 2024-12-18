@@ -4,6 +4,17 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.GraphicsCard
 {
+    public class ConfigurationConnectorDto
+    {
+        public PowerSupply.ConnectorDtoSimple Connector { get; set; }
+        public int ConnectorCount { get; set; }
+
+        public ConfigurationConnectorDto(ConfigurationConnector unitConnector)
+        {
+            Connector = new PowerSupply.ConnectorDtoSimple(unitConnector.Connector);
+            ConnectorCount = unitConnector.ConnectorCount;
+        }
+    }
     public class ConfigurationConnectorDbo
     {
         [Required]

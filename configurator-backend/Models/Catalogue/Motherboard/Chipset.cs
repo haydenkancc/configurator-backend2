@@ -22,14 +22,19 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public CentralProcessor.Socket Socket { get; set; }
+        public CentralProcessor.SocketDto Socket { get; set; }
 
         public ChipsetDto(Chipset chipset)
         {
             ID = chipset.ID;
             Name = chipset.Name;
-            Socket = chipset.Socket;
+            Socket = new CentralProcessor.SocketDto(chipset.Socket);
         }
+    }
+
+    public class ChipsetParams
+    {
+        public required ICollection<CentralProcessor.SocketDto> Sockets { get; set; }
     }
 
     public class ChipsetDbo

@@ -5,12 +5,30 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.Case
 {
+    public class LayoutDto
+    {
+        public ICollection<LayoutPanelDto> Panels { get; set; }
+        public ICollection<StorageAreaDto> StorageAreas { get; set; }
+        public decimal MaxPowerSupplyLength { get; set; }
+        public decimal MaxAirCoolerHeight { get; set; }
+        public decimal MaxGraphicsProcessorUnitLength { get; set; }
+
+        public LayoutDto(Layout layout)
+        {
+            Panels = layout.Panels.Select(e => new LayoutPanelDto(e)).ToList();
+            StorageAreas = layout.StorageAreas.Select(e => new StorageAreaDto(e)).ToList();
+            MaxPowerSupplyLength = layout.MaxPowerSupplyLength;
+            MaxAirCoolerHeight = layout.MaxAirCoolerHeight;
+            MaxGraphicsProcessorUnitLength = layout.MaxGraphicsProcessorUnitLength;
+        }
+    }
+
     public class LayoutDbo
     {
         [Required]
         public required ICollection<LayoutPanelDbo> Panels { get; set; }
         [Required]
-        public required ICollection<StorageArea> StorageAreas { get; set; }
+        public required ICollection<StorageAreaDbo> StorageAreas { get; set; }
         [Required]
         public required decimal MaxPowerSupplyLength { get; set; }
         [Required]

@@ -5,6 +5,19 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.Case
 {
+    public class ExpansionSlotAreaDto
+    {
+        public Pcie.BracketDto Bracket { get; set; }
+        public int SlotCount { get; set; }
+        public bool RiserRequired { get; set; }
+        
+        public ExpansionSlotAreaDto(ExpansionSlotArea area)
+        {
+            Bracket = new Pcie.BracketDto(area.Bracket);
+            SlotCount = area.SlotCount;
+            RiserRequired = area.RiserRequired;
+        }
+    }
     public class ExpansionSlotAreaDbo
     {
         [Required]

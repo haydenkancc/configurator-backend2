@@ -37,7 +37,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
         {
             var key = await _context.M2Keys
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (key is null)
@@ -53,7 +53,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
         {
             return new KeyParams
             {
-                Keys = await _context.M2Keys.AsNoTracking().ToListAsync(),
+                Keys = await _context.M2Keys.AsNoTracking().Select(e => new KeyDtoSimple(e)).ToListAsync(),
             };
         }
 

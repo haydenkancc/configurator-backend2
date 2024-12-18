@@ -8,7 +8,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
     {
         public M2.ExpansionCardDto ExpansionCard { get; set; }
 
-        public M2UnitDto(ComponentDto component, DriveDto drive, M2.ExpansionCardDto expansionCard, M2Unit unit) : base(component, drive, unit)
+        public M2UnitDto(ComponentDto component, DriveDto drive, M2Unit unit, M2.ExpansionCardDto expansionCard) : base(component, drive, unit)
         {
             ExpansionCard = expansionCard;
         }
@@ -22,7 +22,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
 
     public class M2Unit : Unit
     {
-        public int ExpansionCardID { get; set; }
+        public required int ExpansionCardID { get; set; }
 
         public M2.ExpansionCard ExpansionCard { get; set; } = null!;
     }

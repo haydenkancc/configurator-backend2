@@ -35,7 +35,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.General
         {
             var manufacturer = await _context.Manufacturers
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (manufacturer is null)
@@ -123,7 +123,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.General
 
         private bool ManufacturerExists(int id)
         {
-            return _context.Manufacturers.Any(e => e.ID == id);
+            return _context.Manufacturers.Any(e => id == e.ID);
         }
 
         private bool ManufacturerIsValid(ManufacturerDbo manufacturer)

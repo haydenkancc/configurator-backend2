@@ -3,20 +3,6 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.M2
 {
-    public class SlotListItemSimple
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-
-        public SlotListItemSimple(Slot slot)
-        {
-            ID = slot.ID;
-            Name = $"{string.Join('/', slot.FormFactors.Select(formFactor => formFactor.Name))} {slot.Key.Name}-key {slot.Version.Name} x{slot.LaneSize.LaneCount}";
-        }
-    }
-
-
-
     public class SlotListItem
     {
         public int ID { get; set; }
@@ -37,26 +23,39 @@ namespace ConfiguratorBackend.Models.Catalogue.M2
 
     public class SlotParams
     {
-        public required ICollection<Key> Keys { get; set; }
-        public required ICollection<FormFactor> FormFactors { get; set; }
-        public required ICollection<Pcie.Version> Versions { get; set; }
-        public required ICollection<Pcie.Size> LaneSizes { get; set; }
+        public required ICollection<KeyDtoSimple> Keys { get; set; }
+        public required ICollection<FormFactorDto> FormFactors { get; set; }
+        public required ICollection<Pcie.VersionDto> Versions { get; set; }
+        public required ICollection<Pcie.SizeDto> LaneSizes { get; set; }
     }
+
+    public class SlotDtoSimple
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+
+        public SlotDtoSimple(Slot slot)
+        {
+            ID = slot.ID;
+            Name = $"{string.Join('/', slot.FormFactors.Select(formFactor => formFactor.Name))} {slot.Key.Name}-key {slot.Version.Name} x{slot.LaneSize.LaneCount}";
+        }
+    }
+
     public class SlotDto
     {
         public int ID { get; set; }
-        public Key Key { get; set; }
-        public Pcie.Size LaneSize { get; set; }
-        public Pcie.Version Version { get; set; }
-        public ICollection<FormFactor> FormFactors { get; set; }
+        public KeyDto Key { get; set; }
+        public Pcie.SizeDto LaneSize { get; set; }
+        public Pcie.VersionDto Version { get; set; }
+        public ICollection<FormFactorDto> FormFactors { get; set; }
 
         public SlotDto(Slot slot)
         {
             ID = slot.ID;
-            Key = slot.Key;
-            FormFactors = slot.FormFactors;
-            Version = slot.Version;
-            LaneSize = slot.LaneSize;
+            Key = new KeyDto(slot.Key);
+            Version = new Pcie.VersionDto(slot.Version);
+            LaneSize = new Pcie.SizeDto(slot.LaneSize);
+            FormFactors = slot.FormFactors.Select(e => new FormFactorDto(e)).ToList();
         }
     }
 

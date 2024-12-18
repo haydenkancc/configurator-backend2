@@ -20,6 +20,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
             _componentsController = componentsController;
         }
 
+        [HttpGet]
         public async Task<ActionResult<PaginatedList<UnitListItem>>> GetUnits(int pageIndex = 1, int pageSize = 20)
         {
             return await PaginatedList<UnitListItem>.CreateAsync(
@@ -27,6 +28,8 @@ namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
                 .AsNoTracking()
                 .Include(unit => unit.Component)
                 .ThenInclude(component => component.Manufacturer)
+                .Include(unit => unit.Component)
+                .ThenInclude(component => component.Colour)
                 .Include(unit => unit.EfficiencyRating)
                 .Include(unit => unit.FormFactor)
                 .Include(unit => unit.Modularity)
@@ -71,21 +74,10 @@ namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
             {
                 Component = await _componentsController.GetComponentParams(),
 
-                EfficiencyRatings = await _context.PowerSupplyEfficiencyRatings
-                .AsNoTracking()
-                .ToListAsync(),
-
-                Connectors = await _context.PowerSupplyConnectors
-                .AsNoTracking()
-                .ToListAsync(),
-
-                Modularities = await _context.PowerSupplyModularities
-                .AsNoTracking()
-                .ToListAsync(),
-
-                FormFactors = await _context.PowerSupplyFormFactors
-                .AsNoTracking()
-                .ToListAsync(),
+                EfficiencyRatings = await _context.PowerSupplyEfficiencyRatings.AsNoTracking().Select(e => new EfficiencyRatingDto(e)).ToListAsync(),
+                Connectors = await _context.PowerSupplyConnectors.AsNoTracking().Select(e => new ConnectorDtoSimple(e)).ToListAsync(),
+                Modularities = await _context.PowerSupplyModularities.AsNoTracking().Select(e => new ModularityDto(e)).ToListAsync(),
+                FormFactors = await _context.PowerSupplyFormFactors.AsNoTracking().Select(e => new FormFactorDto(e)).ToListAsync(),            
             };
 
             return unitParams;

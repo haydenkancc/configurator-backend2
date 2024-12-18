@@ -48,7 +48,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
         [JsonIgnore]
         public ICollection<Case.Unit> Cases { get; set; } = new List<Case.Unit>();
 
-        [InverseProperty(nameof(Case.Unit.PrimaryFormFactor))]
+        [InverseProperty(nameof(Case.Unit.PrimaryMotherboardFormFactor))]
         [JsonIgnore]
         public ICollection<Case.Unit> CasesWithAsPrimary { get; set; } = new List<Case.Unit>();
     }

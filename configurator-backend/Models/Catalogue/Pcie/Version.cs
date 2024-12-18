@@ -16,10 +16,16 @@ namespace ConfiguratorBackend.Models.Catalogue.Pcie
         }
     }
 
-    public class VersionDto(Version version)
+    public class VersionDto
     {
-        public int ID { get; set; } = version.ID;
-        public string Name { get; set; } = version.Name;
+        public int ID { get; set; }
+        public string Name { get; set; }
+
+        public VersionDto(Version version)
+        {
+            ID = version.ID;
+            Name = version.Name;
+        }
     }
 
     public class VersionDbo

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Configurator.Data;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.EnableAnnotations();
+    c.CustomSchemaIds(type => type.ToString());
 });
 
 builder.Services.AddDbContext<CatalogueContext>(options =>

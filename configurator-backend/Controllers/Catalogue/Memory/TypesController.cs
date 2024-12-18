@@ -37,7 +37,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Memory
         {
             var type = await _context.MemoryTypes
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (type is null)
@@ -125,7 +125,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Memory
 
         private bool TypeExists(int id)
         {
-            return _context.MemoryTypes.Any(e => e.ID == id);
+            return _context.MemoryTypes.Any(e => id == e.ID);
         }
 
         private bool TypeIsValid(TypeDbo type)

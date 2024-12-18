@@ -20,6 +20,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Memory
             _componentsController = componentsController;
         }
 
+        [HttpGet]
         public async Task<ActionResult<PaginatedList<KitListItem>>> GetKits(int pageIndex = 1, int pageSize = 20)
         {
             return await PaginatedList<KitListItem>.CreateAsync(
@@ -27,6 +28,8 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Memory
                 .AsNoTracking()
                 .Include(unit => unit.Component)
                 .ThenInclude(component => component.Manufacturer)
+                .Include(unit => unit.Component)
+                .ThenInclude(component => component.Colour)
                 .Include(kit => kit.Type)
                 .Select(kit => new KitListItem(kit)),
                 pageIndex,
@@ -67,13 +70,9 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Memory
             {
                 Component = await _componentsController.GetComponentParams(),
 
-                Types = await _context.MemoryTypes
-                .AsNoTracking()
-                .ToListAsync(),
+                Types = await _context.MemoryTypes.AsNoTracking().Select(e => new TypeDto(e)).ToListAsync(),
 
-                FormFactors = await _context.MemoryFormFactors
-                .AsNoTracking()
-                .ToListAsync(),
+                FormFactors = await _context.MemoryFormFactors.AsNoTracking().Select(e => new FormFactorDto(e)).ToListAsync(),
             };
 
             return kitParams;

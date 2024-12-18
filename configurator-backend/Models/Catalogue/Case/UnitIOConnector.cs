@@ -4,6 +4,18 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.Case
 {
+    public class UnitIOConnectorDto
+    {
+        public IO.ConnectorDtoSimple Connector { get; set; }
+        public int ConnectorCount { get; set; }
+
+        public UnitIOConnectorDto(UnitIOConnector unitConnector)
+        {
+            Connector = new IO.ConnectorDtoSimple(unitConnector.Connector);
+            ConnectorCount = unitConnector.ConnectorCount;
+        }
+    }
+
     public class UnitIOConnectorDbo
     {
         [Required]

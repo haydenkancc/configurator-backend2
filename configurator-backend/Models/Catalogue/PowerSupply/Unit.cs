@@ -6,15 +6,6 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.PowerSupply
 {
-    public class UnitParams
-    {
-        public required ComponentParams Component { get; set; }
-        public required ICollection<Connector> Connectors { get; set; }
-        public required ICollection<FormFactor> FormFactors { get; set; }
-        public required ICollection<EfficiencyRating> EfficiencyRatings { get; set; }
-        public required ICollection<Modularity> Modularities { get; set; }
-    }
-
     public class UnitListItem : ComponentListItem
     {
         public string FormFactor { get; set; }
@@ -30,14 +21,22 @@ namespace ConfiguratorBackend.Models.Catalogue.PowerSupply
             TotalPower = $"{unit.TotalPower} W";
         }
     }
+    public class UnitParams
+    {
+        public required ComponentParams Component { get; set; }
+        public required ICollection<ConnectorDtoSimple> Connectors { get; set; }
+        public required ICollection<FormFactorDto> FormFactors { get; set; }
+        public required ICollection<EfficiencyRatingDto> EfficiencyRatings { get; set; }
+        public required ICollection<ModularityDto> Modularities { get; set; }
+    }
 
     public class UnitDto
     {
         public ComponentDto Component { get; set; }
-        public FormFactor FormFactor { get; set; }
-        public EfficiencyRating EfficiencyRating { get; set; }
-        public Modularity Modularity { get; set; }
-        public ICollection<UnitConnector> Connectors { get; set; }
+        public FormFactorDto FormFactor { get; set; }
+        public EfficiencyRatingDto EfficiencyRating { get; set; }
+        public ModularityDto Modularity { get; set; }
+        public ICollection<UnitConnectorDto> Connectors { get; set; }
         public int TotalPower { get; set; }
         public int Length { get; set; }
         public bool Fanless { get; set; }
@@ -45,10 +44,10 @@ namespace ConfiguratorBackend.Models.Catalogue.PowerSupply
         public UnitDto(ComponentDto component, Unit unit)
         {
             Component = component;
-            FormFactor = unit.FormFactor;
-            EfficiencyRating = unit.EfficiencyRating;
-            Modularity = unit.Modularity;
-            Connectors = unit.Connectors;
+            FormFactor = new FormFactorDto(unit.FormFactor);
+            EfficiencyRating = new EfficiencyRatingDto(unit.EfficiencyRating);
+            Modularity = new ModularityDto(unit.Modularity);
+            Connectors = unit.Connectors.Select(e => new UnitConnectorDto(e)).ToList();
 
             TotalPower = unit.TotalPower;
             Length = unit.Length;

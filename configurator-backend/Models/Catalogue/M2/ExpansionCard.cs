@@ -7,25 +7,25 @@ namespace ConfiguratorBackend.Models.Catalogue.M2
 {
     public class ExpansionCardParams
     {
-        public required ICollection<Key> Keys { get; set; }
-        public required ICollection<FormFactor> FormFactors { get; set; }
-        public required ICollection<Pcie.Size> LaneSizes { get; set; }
-        public required ICollection<Pcie.Version> Versions { get; set; }
+        public required ICollection<KeyDtoSimple> Keys { get; set; }
+        public required ICollection<FormFactorDto> FormFactors { get; set; }
+        public required ICollection<Pcie.SizeDto> LaneSizes { get; set; }
+        public required ICollection<Pcie.VersionDto> Versions { get; set; }
     }
 
     public class ExpansionCardDto
     {
-        public Key Key { get; set; }
-        public FormFactor FormFactor { get; set; }
-        public Pcie.Version Version { get; set; }
-        public Pcie.Size LaneSize { get; set; }
+        public KeyDtoSimple Key { get; set; }
+        public FormFactorDto FormFactor { get; set; }
+        public Pcie.VersionDto Version { get; set; }
+        public Pcie.SizeDto LaneSize { get; set; }
 
         public ExpansionCardDto(ExpansionCard expansionCard)
         {
-            Key = expansionCard.Key;
-            FormFactor = expansionCard.FormFactor;
-            Version = expansionCard.Version;
-            LaneSize = expansionCard.LaneSize;
+            Key = new KeyDtoSimple(expansionCard.Key);
+            FormFactor = new FormFactorDto(expansionCard.FormFactor);
+            Version = new Pcie.VersionDto(expansionCard.Version);
+            LaneSize = new Pcie.SizeDto(expansionCard.LaneSize);
         }
     }
 

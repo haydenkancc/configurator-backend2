@@ -4,6 +4,7 @@ using ConfiguratorBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System;
 
 namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
 {
@@ -20,7 +21,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
         {
             var expansionCard = await _context.PcieExpansionCards
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (expansionCard is null)
@@ -31,13 +32,13 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
             return new ExpansionCardDto(expansionCard);
         }
 
-        public async Task<ActionResult<ExpansionCardParams>> GetExpansionCardParams()
+        public async Task<ExpansionCardParams> GetExpansionCardParams()
         {
             return new ExpansionCardParams
             {
-                Brackets = await _context.PcieBrackets.AsNoTracking().ToListAsync(),
-                Sizes = await _context.PcieSizes.AsNoTracking().ToListAsync(),
-                Versions = await _context.PcieVersions.AsNoTracking().ToListAsync(),
+                Brackets = await _context.PcieBrackets.AsNoTracking().Select(e => new BracketDto(e)).ToListAsync(),
+                Sizes = await _context.PcieSizes.AsNoTracking().Select(e => new SizeDto(e)).ToListAsync(),
+                Versions = await _context.PcieVersions.AsNoTracking().Select(e => new VersionDto(e)).ToListAsync(),
             };
         }
 

@@ -10,14 +10,14 @@ namespace ConfiguratorBackend.Models.Catalogue.Cooler
         public decimal Width { get; set; }
         public decimal Height { get; set; }
 
-        public required RadiatorSize RadiatorSize { get; set; }
+        public RadiatorSizeDto RadiatorSize { get; set; }
 
         public LiquidUnitDto(ComponentDto component, LiquidUnit unit) : base(component, unit)
         {
             Length = unit.Length;
             Width = unit.Width;
             Height = unit.Height;
-            RadiatorSize = unit.RadiatorSize;
+            RadiatorSize = new RadiatorSizeDto(unit.RadiatorSize);
         }
     }
 

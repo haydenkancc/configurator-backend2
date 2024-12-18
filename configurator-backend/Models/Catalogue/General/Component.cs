@@ -21,8 +21,8 @@ namespace ConfiguratorBackend.Models.Catalogue.General
 
     public class ComponentParams
     {
-        public required ICollection<Manufacturer> Manufacturers { get; set; }
-        public required ICollection<Colour> Colours { get; set; }
+        public required ICollection<ManufacturerDto> Manufacturers { get; set; }
+        public required ICollection<ColourDto> Colours { get; set; }
     }
 
     public class ComponentDto
@@ -35,14 +35,13 @@ namespace ConfiguratorBackend.Models.Catalogue.General
         public decimal SalePrice { get; set; } = 0m;
         public bool OnSale { get; set; }
         public bool Saleable { get; set; }
-        public Manufacturer Manufacturer { get; set; }
+        public ManufacturerDto Manufacturer { get; set; }
         public bool IsColoured { get; set; }
-        public Colour? Colour { get; set; }
+        public ColourDto? Colour { get; set; }
 
         public ComponentDto(Component component)
         {
-            Manufacturer = component.Manufacturer;
-            Colour = component.Colour;
+            Manufacturer = new ManufacturerDto(component.Manufacturer);
             ID = component.ID;
             Name = component.Name;
             PartNumber = component.PartNumber;
@@ -51,6 +50,8 @@ namespace ConfiguratorBackend.Models.Catalogue.General
             OnSale = component.OnSale;
             SKU = component.SKU;
             Saleable = component.Saleable;
+            IsColoured = component.IsColoured;
+            Colour = IsColoured ? component.Colour is not null ? new ColourDto(component.Colour) : null : null;
         }
     }
 

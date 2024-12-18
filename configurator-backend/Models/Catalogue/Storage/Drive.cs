@@ -15,6 +15,20 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
         public Type Type { get; set; }
         public SolidStateDriveDto? SolidStateDrive { get; set; }
         public HardDiskDriveDto? HardDiskDrive { get; set; }
+
+        public DriveDto(Type type, SolidStateDriveDto solidStateDrive)
+        {
+            Type = type;
+            SolidStateDrive = solidStateDrive;
+            HardDiskDrive = null;
+        }
+        
+        public DriveDto(Type type, HardDiskDriveDto hardDiskDrive)
+        {
+            Type = type;
+            HardDiskDrive = hardDiskDrive;
+            SolidStateDrive = null;
+        }
     }
 
     public abstract class BaseDriveDto
@@ -27,7 +41,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
 
     public class DriveParams
     {
-        public required ICollection<NandType> NandTypes { get; set; }
+        public required ICollection<NandTypeDto> NandTypes { get; set; }
     }
 
     public class DriveDbo

@@ -5,15 +5,15 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
 {
     public class CaseUnitDto : BaseUnitDto 
     {
-        public FormFactor FormFactor { get; set; }
-        public IO.Connector IOConnector { get; set; }
-        public PowerSupply.Connector PowerSupplyConnector { get; set; }
+        public FormFactorDto FormFactor { get; set; }
+        public IO.ConnectorDtoSimple IOConnector { get; set; }
+        public PowerSupply.ConnectorDtoSimple PowerSupplyConnector { get; set; }
 
         public CaseUnitDto(ComponentDto component, DriveDto drive, CaseUnit unit) : base(component, drive, unit)
         {
-            FormFactor = unit.FormFactor;
-            IOConnector = unit.IOConnector;
-            PowerSupplyConnector = unit.PowerSupplyConnector;
+            FormFactor = new FormFactorDto(unit.FormFactor);
+            IOConnector = new IO.ConnectorDtoSimple(unit.IOConnector);
+            PowerSupplyConnector = new PowerSupply.ConnectorDtoSimple(unit.PowerSupplyConnector);
         }
     }
 

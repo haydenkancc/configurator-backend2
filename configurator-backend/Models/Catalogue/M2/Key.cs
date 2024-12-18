@@ -18,20 +18,32 @@ namespace ConfiguratorBackend.Models.Catalogue.M2
 
     public class KeyParams
     {
-        public required ICollection<Key> Keys { get; set; }
+        public required ICollection<KeyDtoSimple> Keys { get; set; }
     }
 
     public class KeyDto
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public ICollection<Key> CompatibleKeys { get; set; }
+        public ICollection<KeyDtoSimple> CompatibleKeys { get; set; }
 
         public KeyDto(Key key)
         {
             ID = key.ID;
             Name = key.Name;
-            CompatibleKeys = key.CompatibleKeys;
+            CompatibleKeys = key.CompatibleKeys.Select(key => new KeyDtoSimple(key)).ToList();
+        }
+    }
+
+    public class KeyDtoSimple
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+
+        public KeyDtoSimple(Key key)
+        {
+            ID = key.ID;
+            Name = key.Name;
         }
     }
 

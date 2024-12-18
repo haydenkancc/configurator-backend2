@@ -43,12 +43,4 @@
     <Compile Include="Controllers\Catalogue\Pcie\VersionsContrtoller.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Catalogue\Case\" />
-    <Folder Include="Controllers\Catalogue\CentralProcessor\" />
-    <Folder Include="Controllers\Catalogue\Cooler\" />
-    <Folder Include="Controllers\Catalogue\Motherboard\" />
-    <Folder Include="Controllers\Catalogue\Storage\" />
-  </ItemGroup>
-
 </Project>

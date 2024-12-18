@@ -4,6 +4,18 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.Fan
 {
+    public class PackConnectorDto
+    {
+        public IO.ConnectorDtoSimple Connector { get; set; }
+        public int ConnectorCount { get; set; }
+
+        public PackConnectorDto(PackConnector packConnector)
+        {
+            Connector = new IO.ConnectorDtoSimple(packConnector.Connector);
+            ConnectorCount = packConnector.ConnectorCount;
+        }
+    }
+
     public class PackConnectorDbo
     {
         [Required]

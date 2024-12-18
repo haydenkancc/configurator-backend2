@@ -25,8 +25,8 @@ namespace ConfiguratorBackend.Models.Catalogue.Memory
     public class KitParams
     {
         public required ComponentParams Component { get; set; }
-        public required ICollection<FormFactor> FormFactors { get; set; }
-        public required ICollection<Type> Types { get; set; }
+        public required ICollection<FormFactorDto> FormFactors { get; set; }
+        public required ICollection<TypeDto> Types { get; set; }
     }
 
     public class KitDto
@@ -44,8 +44,8 @@ namespace ConfiguratorBackend.Models.Catalogue.Memory
         public decimal Voltage { get; set; }
         public string Timing { get; set; }
 
-        public FormFactor FormFactor { get; set; }
-        public Type Type { get; set; }
+        public FormFactorDto FormFactor { get; set; }
+        public TypeDto Type { get; set; }
 
         public KitDto(ComponentDto component, Kit kit)
         {
@@ -60,8 +60,8 @@ namespace ConfiguratorBackend.Models.Catalogue.Memory
             FirstWordLatency = kit.FirstWordLatency;
             Voltage = kit.Voltage;
             Timing = kit.Timing;
-            FormFactor = kit.FormFactor;
-            Type = kit.Type;
+            FormFactor = new FormFactorDto(kit.FormFactor);
+            Type = new TypeDto(kit.Type);
         }
 
     }

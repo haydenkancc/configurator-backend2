@@ -35,7 +35,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
         {
             var bracket = await _context.PcieBrackets
                 .AsNoTracking()
-                .Where(e => e.ID == id)
+                .Where(e => id == e.ID)
                 .FirstOrDefaultAsync();
 
             if (bracket is null)
@@ -123,7 +123,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
 
         private bool BracketExists(int id)
         {
-            return _context.PcieBrackets.Any(e => e.ID == id);
+            return _context.PcieBrackets.Any(e => id == e.ID);
         }
 
         private bool BracketIsValid(BracketDbo bracket)

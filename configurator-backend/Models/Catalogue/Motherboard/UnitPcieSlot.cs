@@ -5,6 +5,26 @@ using System.Text.Json.Serialization;
 
 namespace ConfiguratorBackend.Models.Catalogue.Motherboard
 {
+    public class UnitPcieSlotDto
+    {
+        public Pcie.SlotDto Slot { get; set; }
+        public int SlotPosition { get; set; }
+        public int ConfigurationNumber { get; set; }
+        public ICollection<CentralProcessor.SeriesDto> Series { get; set; }
+        public ICollection<CentralProcessor.UnitDtoSimple> Processors { get; set; }
+        public ICollection<CentralProcessor.CoreFamilyDto> CoreFamilies { get; set; }
+
+        public UnitPcieSlotDto(UnitPcieSlot slot)
+        {
+            Slot = new Pcie.SlotDto(slot.Slot);
+            SlotPosition = slot.SlotPosition;
+            ConfigurationNumber = slot.ConfigurationNumber;
+            Series = slot.Series.Select(e => new CentralProcessor.SeriesDto(e)).ToList();
+            Processors = slot.Processors.Select(e => new CentralProcessor.UnitDtoSimple(e)).ToList();
+            CoreFamilies = slot.CoreFamilies.Select(e => new CentralProcessor.CoreFamilyDto(e)).ToList();
+        }
+    }
+
     public class UnitPcieSlotDbo
     {
         [Required]

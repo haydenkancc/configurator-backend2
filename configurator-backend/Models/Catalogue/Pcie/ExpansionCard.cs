@@ -8,25 +8,25 @@ namespace ConfiguratorBackend.Models.Catalogue.Pcie
 {
     public class ExpansionCardParams
     {
-        public required ICollection<Bracket> Brackets { get; set; }
-        public required ICollection<Version> Versions { get; set; }
-        public required ICollection<Size> Sizes { get; set; }
+        public required ICollection<BracketDto> Brackets { get; set; }
+        public required ICollection<VersionDto> Versions { get; set; }
+        public required ICollection<SizeDto> Sizes { get; set; }
     }
 
     public class ExpansionCardDto
     {
-        public Bracket Bracket { get; set; }
-        public Version Version { get; set; }
-        public Size LaneSize { get; set; }
-        public Size PhysicalSize { get; set; }
+        public BracketDto Bracket { get; set; }
+        public VersionDto Version { get; set; }
+        public SizeDto LaneSize { get; set; }
+        public SizeDto PhysicalSize { get; set; }
         public int ExpansionSlotWidth { get; set; }
 
         public ExpansionCardDto(ExpansionCard expansionCard)
         {
-            Bracket = expansionCard.Bracket;
-            Version = expansionCard.Version;
-            LaneSize = expansionCard.LaneSize;
-            PhysicalSize = expansionCard.PhysicalSize;
+            Bracket = new BracketDto(expansionCard.Bracket);
+            Version = new VersionDto(expansionCard.Version);
+            LaneSize = new SizeDto(expansionCard.LaneSize);
+            PhysicalSize = new SizeDto(expansionCard.PhysicalSize);
             ExpansionSlotWidth = expansionCard.ExpansionSlotWidth;
         }
     }

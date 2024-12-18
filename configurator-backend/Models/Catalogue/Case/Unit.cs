@@ -13,7 +13,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Case
 
         public UnitListItem(Unit unit) : base(unit.Component)
         {
-            Type = $"{unit.PrimaryFormFactor.Name} {unit.Size.Name}";
+            Type = $"{unit.PrimaryMotherboardFormFactor.Name} {unit.Size.Name}";
             SidePanel = unit.SidePanelMaterial.Name;
             ExternalVolume = $"{unit.ExternalVolume} L";
         }
@@ -22,15 +22,15 @@ namespace ConfiguratorBackend.Models.Catalogue.Case
     public class UnitDto
     {
         public ComponentDto Component { get; set; }
-        public ICollection<Layout> Layouts { get; set; }
-        public ICollection<UnitIOConnector>? IOConnectors { get; set; }
-        public ICollection<UnitPowerSupplyConnector>? PowerSupplyConnectors { get; set; }
-        public Motherboard.FormFactor PrimaryFormFactor { get; set; }
-        public ICollection<Motherboard.FormFactor> MotherboardFormFactors { get; set; }
-        public PowerSupply.FormFactor PowerSupplyFormFactor { get; set; }
-        public ICollection<ExpansionSlotArea>? ExpansionSlotAreas { get; set; }
-        public Size Size { get; set; }
-        public Material SidePanelMaterial { get; set; }
+        public ICollection<LayoutDto> Layouts { get; set; }
+        public ICollection<UnitIOConnectorDto>? IOConnectors { get; set; }
+        public ICollection<UnitPowerSupplyConnectorDto>? PowerSupplyConnectors { get; set; }
+        public Motherboard.FormFactorDto PrimaryMotherboardFormFactor { get; set; }
+        public ICollection<Motherboard.FormFactorDto> MotherboardFormFactors { get; set; }
+        public PowerSupply.FormFactorDto PowerSupplyFormFactor { get; set; }
+        public ICollection<ExpansionSlotAreaDto>? ExpansionSlotAreas { get; set; }
+        public SizeDto Size { get; set; }
+        public MaterialDto SidePanelMaterial { get; set; }
 
         public decimal ExternalVolume { get; set; }
         public decimal Length { get; set; }
@@ -40,15 +40,15 @@ namespace ConfiguratorBackend.Models.Catalogue.Case
         public UnitDto(ComponentDto component, Unit unit)
         {
             Component = component;
-            Layouts = unit.Layouts;
-            IOConnectors = unit.IOConnectors;
-            PowerSupplyConnectors = unit.PowerSupplyConnectors;
-            PrimaryFormFactor = unit.PrimaryFormFactor;
-            MotherboardFormFactors = unit.MotherboardFormFactors;
-            PowerSupplyFormFactor = unit.PowerSupplyFormFactor;
-            ExpansionSlotAreas = unit.ExpansionSlotAreas;
-            Size = unit.Size;
-            SidePanelMaterial = unit.SidePanelMaterial;
+            Layouts = unit.Layouts.Select(e => new LayoutDto(e)).ToList();
+            IOConnectors = unit.IOConnectors.Select(e => new UnitIOConnectorDto(e)).ToList();
+            PowerSupplyConnectors = unit.PowerSupplyConnectors.Select(e => new UnitPowerSupplyConnectorDto(e)).ToList();
+            PrimaryMotherboardFormFactor = new Motherboard.FormFactorDto(unit.PrimaryMotherboardFormFactor);
+            MotherboardFormFactors = unit.MotherboardFormFactors.Select(e => new Motherboard.FormFactorDto(e)).ToList();
+            PowerSupplyFormFactor = new PowerSupply.FormFactorDto(unit.PowerSupplyFormFactor);
+            ExpansionSlotAreas = unit.ExpansionSlotAreas.Select(e => new ExpansionSlotAreaDto(e)).ToList();
+            Size = new SizeDto(unit.Size);
+            SidePanelMaterial = new MaterialDto(unit.SidePanelMaterial);
             ExternalVolume = unit.ExternalVolume;
             Length = unit.Length;
             Width = unit.Width;
@@ -82,7 +82,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Case
         public required int PowerSupplyFormFactorID { get; set; }
         
         [Required]
-        public required int PrimaryFormFactorID { get; set; }
+        public required int PrimaryMotherboardFormFactorID { get; set; }
         
         [Required]
         public required int SizeID { get; set; }
@@ -121,9 +121,9 @@ namespace ConfiguratorBackend.Models.Catalogue.Case
     [PrimaryKey(nameof(ComponentID))]
     public class Unit
     {
-        public int ComponentID { get; set; }
+        public required int ComponentID { get; set; }
         public required int PowerSupplyFormFactorID { get; set; }
-        public required int PrimaryFormFactorID { get; set; }
+        public required int PrimaryMotherboardFormFactorID { get; set; }
         public required int SizeID { get; set; }
         public required int SidePanelMaterialID { get; set; }
         [Column(TypeName = "decimal(8,2)")]
@@ -138,14 +138,14 @@ namespace ConfiguratorBackend.Models.Catalogue.Case
 
         [ForeignKey(nameof(ComponentID))]
         public Component Component { get; set; } = null!;
-        public ICollection<Layout> Layouts { get; set; } = null!;
-        public ICollection<UnitIOConnector> IOConnectors { get; set; } = new List<UnitIOConnector>();
-        public ICollection<UnitPowerSupplyConnector> PowerSupplyConnectors { get; set; } = new List<UnitPowerSupplyConnector>();
+        public required ICollection<Layout> Layouts { get; set; }
+        public required ICollection<UnitIOConnector> IOConnectors { get; set; }
+        public required ICollection<UnitPowerSupplyConnector> PowerSupplyConnectors { get; set; }
         [DeleteBehavior(DeleteBehavior.Restrict)]
-        public Motherboard.FormFactor PrimaryFormFactor { get; set; } = null!;
-        public ICollection<Motherboard.FormFactor> MotherboardFormFactors { get; set; } = null!;
+        public Motherboard.FormFactor PrimaryMotherboardFormFactor { get; set; } = null!;
+        public required ICollection<Motherboard.FormFactor> MotherboardFormFactors { get; set; }
         public PowerSupply.FormFactor PowerSupplyFormFactor { get; set; } = null!;
-        public ICollection<ExpansionSlotArea> ExpansionSlotAreas { get; set; } = new List<ExpansionSlotArea>();
+        public required ICollection<ExpansionSlotArea> ExpansionSlotAreas { get; set; }
         public Size Size { get; set; } = null!;
         public Material SidePanelMaterial { get; set; } = null!;
     }
