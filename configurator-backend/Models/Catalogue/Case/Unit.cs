@@ -59,17 +59,17 @@ namespace ConfiguratorBackend.Models.Catalogue.Case
     public class UnitParams
     {
         public required ComponentParams Component { get; set; }
-        public required ICollection<PowerSupply.FormFactor> PowerSupplyFormFactors { get; set; }
-        public required ICollection<Motherboard.FormFactor> MotherboardFormFactors { get; set; }
-        public required ICollection<Size> Sizes { get; set; }
-        public required ICollection<Material> Materials { get; set; }
-        public required ICollection<Cooler.RadiatorSize> RadiatorSizes { get; set; }
-        public required ICollection<Fan.Size> FanSizes { get; set; }
-        public required ICollection<Pcie.Bracket> Brackets { get; set; }
-        public required ICollection<Panel> Panels { get; set; }
-        public required ICollection<IO.Connector> IOConnectors { get; set; }
-        public required ICollection<PowerSupply.Connector> PowerSupplyConnectors { get; set; }
-        public required ICollection<Storage.FormFactor> StorageFormFactors { get; set; }
+        public required ICollection<PowerSupply.FormFactorDto> PowerSupplyFormFactors { get; set; }
+        public required ICollection<Motherboard.FormFactorDto> MotherboardFormFactors { get; set; }
+        public required ICollection<SizeDto> Sizes { get; set; }
+        public required ICollection<MaterialDto> Materials { get; set; }
+        public required ICollection<Cooler.RadiatorSizeDto> RadiatorSizes { get; set; }
+        public required ICollection<Fan.SizeDto> FanSizes { get; set; }
+        public required ICollection<Pcie.BracketDto> Brackets { get; set; }
+        public required ICollection<PanelDto> Panels { get; set; }
+        public required ICollection<IO.ConnectorDto> IOConnectors { get; set; }
+        public required ICollection<PowerSupply.ConnectorDto> PowerSupplyConnectors { get; set; }
+        public required ICollection<Storage.FormFactorDto> StorageFormFactors { get; set; }
     }
 
     public class UnitDbo

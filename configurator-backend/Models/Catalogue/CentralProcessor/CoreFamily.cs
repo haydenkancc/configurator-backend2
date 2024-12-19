@@ -39,14 +39,14 @@ namespace ConfiguratorBackend.Models.Catalogue.CentralProcessor
         public int ID { get; set; }
         public string CodeName { get; set; }
         public string AlternateName { get; set; }
-        public Microarchitecture Microarchitecture { get; set; }
+        public MicroarchitectureDto Microarchitecture { get; set; }
 
         public CoreFamilyDto(CoreFamily coreFamily)
         {
             ID = coreFamily.ID;
             CodeName = coreFamily.CodeName;
             AlternateName = coreFamily.AlternateName;
-            Microarchitecture = coreFamily.Microarchitecture;
+            Microarchitecture = new MicroarchitectureDto(coreFamily.Microarchitecture);
         }
     }
 

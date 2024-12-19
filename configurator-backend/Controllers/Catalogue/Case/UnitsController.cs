@@ -87,17 +87,17 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Case
             var unitParams = new UnitParams
             {
                 Component = await _componentsController.GetComponentParams(),
-                PowerSupplyFormFactors = await _context.PowerSupplyFormFactors.AsNoTracking().ToListAsync(),
-                MotherboardFormFactors = await _context.MotherboardFormFactors.AsNoTracking().ToListAsync(),
-                Sizes = await _context.CaseSizes.AsNoTracking().ToListAsync(),
-                Materials = await _context.CaseMaterials.AsNoTracking().ToListAsync(),
-                RadiatorSizes = await _context.CoolerRadiatorSizes.AsNoTracking().ToListAsync(),
-                FanSizes = await _context.FanSizes.AsNoTracking().ToListAsync(),
-                Brackets = await _context.PcieBrackets.AsNoTracking().ToListAsync(),
-                Panels = await _context.CasePanels.AsNoTracking().ToListAsync(),
-                IOConnectors = await _context.IOConnectors.AsNoTracking().ToListAsync(),
-                PowerSupplyConnectors = await _context.PowerSupplyConnectors.AsNoTracking().ToListAsync(),
-                StorageFormFactors = await _context.StorageFormFactors.AsNoTracking().ToListAsync(),
+                PowerSupplyFormFactors = await _context.PowerSupplyFormFactors.AsNoTracking().Select(e => new Models.Catalogue.PowerSupply.FormFactorDto(e)).ToListAsync(),
+                MotherboardFormFactors = await _context.MotherboardFormFactors.AsNoTracking().Select(e => new Models.Catalogue.Motherboard.FormFactorDto(e)).ToListAsync(),
+                Sizes = await _context.CaseSizes.AsNoTracking().Select(e => new SizeDto(e)).ToListAsync(),
+                Materials = await _context.CaseMaterials.AsNoTracking().Select(e => new MaterialDto(e)).ToListAsync(),
+                RadiatorSizes = await _context.CoolerRadiatorSizes.AsNoTracking().Select(e => new Models.Catalogue.Cooler.RadiatorSizeDto(e)).ToListAsync(),
+                FanSizes = await _context.FanSizes.AsNoTracking().Select(e => new Models.Catalogue.Fan.SizeDto(e)).ToListAsync(),
+                Brackets = await _context.PcieBrackets.AsNoTracking().Select(e => new Models.Catalogue.Pcie.BracketDto(e)).ToListAsync(),
+                Panels = await _context.CasePanels.AsNoTracking().Select(e => new PanelDto(e)).ToListAsync(),
+                IOConnectors = await _context.IOConnectors.AsNoTracking().Select(e => new Models.Catalogue.IO.ConnectorDto(e)).ToListAsync(),
+                PowerSupplyConnectors = await _context.PowerSupplyConnectors.AsNoTracking().Select(e => new Models.Catalogue.PowerSupply.ConnectorDto(e)).ToListAsync(),
+                StorageFormFactors = await _context.StorageFormFactors.AsNoTracking().Select(e => new Models.Catalogue.Storage.FormFactorDto(e)).ToListAsync(),
             };
 
             return unitParams;
@@ -229,7 +229,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Case
             {
                 return c.Result ?? BadRequest(ModelState);
             }
-
+             
 
             if (!await UnitIsValid(unit))
             {
