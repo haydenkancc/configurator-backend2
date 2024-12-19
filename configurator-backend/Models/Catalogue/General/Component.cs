@@ -13,7 +13,7 @@ namespace ConfiguratorBackend.Models.Catalogue.General
         public ComponentListItem(Component component)
         {
             ID = component.ID;
-            Price = component.Saleable ? (component.OnSale ? component.SalePrice : component.RegularPrice).ToString("C") : "N/A";
+            Price = component.Saleable ? (component.OnSale ? component.SalePrice is null ? component.RegularPrice : component.SalePrice.Value : component.RegularPrice).ToString("C") : "N/A";
             Name = $"{component.Manufacturer.Name} {component.Name}";
             Colour = component.Colour?.Name ?? "N/A"; 
         }
@@ -32,7 +32,7 @@ namespace ConfiguratorBackend.Models.Catalogue.General
         public string PartNumber { get; set; }
         public string Name { get; set; }
         public decimal RegularPrice { get; set; }
-        public decimal SalePrice { get; set; } = 0m;
+        public decimal? SalePrice { get; set; }
         public bool OnSale { get; set; }
         public bool Saleable { get; set; }
         public ManufacturerDto Manufacturer { get; set; }
@@ -66,9 +66,9 @@ namespace ConfiguratorBackend.Models.Catalogue.General
         [Required]
         public required string Name { get; set; }
         [Required]
-        public required decimal RegularPrice { get; set; } = 0m;
+        public required decimal RegularPrice { get; set; }
         [Required]
-        public required decimal SalePrice { get; set; } = 0m;
+        public required decimal? SalePrice { get; set; }
         [Required]
         public required bool OnSale { get; set; }
         [Required]
@@ -91,9 +91,9 @@ namespace ConfiguratorBackend.Models.Catalogue.General
         public required string PartNumber { get; set; }
         public required string Name { get; set; }
         [Column(TypeName = "decimal(10,2)")]
-        public required decimal RegularPrice { get; set; }
+        public required decimal RegularPrice { get; set; } = 0m;
         [Column(TypeName = "decimal(10,2)")]
-        public decimal SalePrice { get; set; }
+        public required decimal? SalePrice { get; set; }
         public required bool OnSale { get; set; }
         public required bool Saleable { get; set; }
         public required bool IsColoured { get; set; }

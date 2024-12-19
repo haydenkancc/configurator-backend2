@@ -5,6 +5,16 @@ using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<ConfiguratorBackend.Controllers.Catalogue.General.ComponentsController>();
+builder.Services.AddScoped<ConfiguratorBackend.Controllers.Catalogue.Pcie.ExpansionCardsController>();
+builder.Services.AddScoped<ConfiguratorBackend.Controllers.Catalogue.M2.ExpansionCardsController>();
+builder.Services.AddScoped<ConfiguratorBackend.Controllers.Catalogue.Cooler.AirUnitsController>();
+builder.Services.AddScoped<ConfiguratorBackend.Controllers.Catalogue.Cooler.LiquidUnitsController>();
+builder.Services.AddScoped<ConfiguratorBackend.Controllers.Catalogue.Storage.HardDiskDrivesController>();
+builder.Services.AddScoped<ConfiguratorBackend.Controllers.Catalogue.Storage.SolidStateDrivesController>();
+builder.Services.AddScoped<ConfiguratorBackend.Controllers.Catalogue.Storage.DrivesController>();
+builder.Services.AddScoped<ConfiguratorBackend.Controllers.Catalogue.Storage.CaseUnitsController>();
+builder.Services.AddScoped<ConfiguratorBackend.Controllers.Catalogue.Storage.M2UnitsController>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

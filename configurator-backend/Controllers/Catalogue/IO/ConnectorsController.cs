@@ -37,6 +37,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.IO
             var connector = await _context.IOConnectors
                 .AsNoTracking()
                 .Where(e => id == e.ID)
+                .Include(connector => connector.CompatibleConnectors)
                 .FirstOrDefaultAsync();
 
             if (connector is null)
@@ -47,7 +48,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.IO
             return new ConnectorDto(connector);
         }
 
-        [HttpGet("params/{params}")]
+        [HttpGet("params")]
         public async Task<ActionResult<ConnectorParams>> GetConnectorParams()
         {
             return new ConnectorParams

@@ -25,6 +25,9 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
             return await PaginatedList<SlotListItem>.CreateAsync(
                 _context.PcieSlots
                 .AsNoTracking()
+                .Include(slot => slot.Version)
+                .Include(slot => slot.LaneSize)
+                .Include(slot => slot.PhysicalSize)
                 .Select(slot => new SlotListItem(slot)),
                 pageIndex,
                 pageSize
@@ -38,6 +41,9 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
             var slot = await _context.PcieSlots
                 .AsNoTracking()
                 .Where(e => id == e.ID)
+                .Include(slot => slot.Version)
+                .Include(slot => slot.LaneSize)
+                .Include(slot => slot.PhysicalSize)
                 .FirstOrDefaultAsync();
 
             if (slot is null)
@@ -48,7 +54,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
             return new SlotDto(slot);
         }
 
-        [HttpGet("params/{params}")]
+        [HttpGet("params")]
         public async Task<ActionResult<SlotParams>> GetSlotParams()
         {
             return new SlotParams {

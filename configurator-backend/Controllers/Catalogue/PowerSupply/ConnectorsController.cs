@@ -47,7 +47,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
             return new ConnectorDto(connector);
         }
 
-        [HttpGet("params/{params}")]
+        [HttpGet("params")]
         public async Task<ActionResult<ConnectorParams>> GetConnectorParams()
         {
             return new ConnectorParams

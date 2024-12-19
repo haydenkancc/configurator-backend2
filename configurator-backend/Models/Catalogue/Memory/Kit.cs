@@ -101,7 +101,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Memory
     [PrimaryKey(nameof(ComponentID))]
     public class Kit
     {
-        public required int ComponentID { get; set; }
+        public int ComponentID { get; set; }
         public required int FormFactorID { get; set; }
         public required int TypeID { get; set; }
         public required int Capacity { get; set; }
@@ -121,7 +121,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Memory
 
 
         [ForeignKey(nameof(ComponentID))]
-        public Component Component { get; set; } = null!;
+        public required Component Component { get; set; }
         public FormFactor FormFactor { get; set; } = null!;
         public Type Type { get; set; } = null!;
     }

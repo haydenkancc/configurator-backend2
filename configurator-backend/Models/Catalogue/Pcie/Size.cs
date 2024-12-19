@@ -19,18 +19,18 @@ namespace ConfiguratorBackend.Models.Catalogue.Pcie
 
     public class SizeDto
     {
+        public int ID { get; set; }
         public int LaneCount { get; set; }
 
         public SizeDto(Size size)
         {
+            ID = size.ID;
             LaneCount = size.LaneCount;
         }
     }
 
     public class SizeDbo
     {
-        [Required]
-        public required int ID { get; set; }
         [Required]
         public required int LaneCount { get; set; }
     }

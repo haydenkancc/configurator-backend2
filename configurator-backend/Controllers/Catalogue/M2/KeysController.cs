@@ -38,6 +38,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
             var key = await _context.M2Keys
                 .AsNoTracking()
                 .Where(e => id == e.ID)
+                .Include(e => e.CompatibleKeys)
                 .FirstOrDefaultAsync();
 
             if (key is null)
@@ -48,7 +49,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
             return new KeyDto(key);
         }
 
-        [HttpGet("params/{params}")]
+        [HttpGet("params")]
         public async Task<ActionResult<KeyParams>> GetKeyParams()
         {
             return new KeyParams
@@ -73,6 +74,8 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
             }
 
             keyToUpdate.Name = key.Name;
+
+            _context.M2Keys.Entry(keyToUpdate).Collection(e => e.CompatibleKeys).Load();
             keyToUpdate.CompatibleKeys = await _context.M2Keys.Where(e => key.CompatibleKeyIDs.Contains(e.ID)).ToListAsync();
 
 

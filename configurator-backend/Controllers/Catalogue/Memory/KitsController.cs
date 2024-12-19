@@ -158,7 +158,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Memory
 
             var emptyKit = new Kit
             {
-                ComponentID = component.ID,
+                Component = component,
                 FormFactorID = kit.FormFactorID,
                 TypeID = kit.TypeID,
                 Capacity = kit.Capacity,

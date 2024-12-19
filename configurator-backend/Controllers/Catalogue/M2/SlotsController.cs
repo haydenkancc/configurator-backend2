@@ -25,6 +25,10 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
             return await PaginatedList<SlotListItem>.CreateAsync(
                 _context.M2Slots
                 .AsNoTracking()
+                .Include(slot => slot.FormFactors)
+                .Include(slot => slot.Key)
+                .Include(slot => slot.LaneSize)
+                .Include(slot => slot.Version)
                 .Select(slot => new SlotListItem(slot)),
                 pageIndex,
                 pageSize
@@ -38,6 +42,10 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
             var slot = await _context.M2Slots
                 .AsNoTracking()
                 .Where(e => id == e.ID)
+                .Include(slot => slot.FormFactors)
+                .Include(slot => slot.Key)
+                .Include(slot => slot.LaneSize)
+                .Include(slot => slot.Version)
                 .FirstOrDefaultAsync();
 
             if (slot is null)
@@ -48,7 +56,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
             return new SlotDto(slot);
         }
 
-        [HttpGet("params/{params}")]
+        [HttpGet("params")]
         public async Task<ActionResult<SlotParams>> GetSlotParams()
         {
             return new SlotParams
@@ -75,9 +83,9 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
                 return BadRequest(ModelState);
             }
 
-            _context.M2Slots.Entry(slotToUpdate).Collection(e => e.FormFactors).Load();
 
             slotToUpdate.KeyID = slot.KeyID;
+            _context.M2Slots.Entry(slotToUpdate).Collection(e => e.FormFactors).Load();
             slotToUpdate.FormFactors = await _context.M2FormFactors.Where(e => slot.FormFactorIDs.Contains(e.ID)).ToListAsync();
             slotToUpdate.LaneSizeID = slot.LaneSizeID;
             slotToUpdate.VersionID = slot.VersionID;
