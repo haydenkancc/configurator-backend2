@@ -56,6 +56,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
                 .Include(unit => unit.EfficiencyRating)
                 .Include(unit => unit.Modularity)
                 .Include(unit => unit.Connectors)
+                .ThenInclude(connectors => connectors.Connector)
                 .Include(unit => unit.FormFactor)
                 .FirstOrDefaultAsync();
 
@@ -165,7 +166,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
 
             var emptyUnit = new Unit
             {
-                ComponentID = component.ID,
+                Component = component,
                 FormFactorID = unit.FormFactorID,
                 ModularityID = unit.ModularityID,
                 EfficiencyRatingID = unit.EfficiencyRatingID,

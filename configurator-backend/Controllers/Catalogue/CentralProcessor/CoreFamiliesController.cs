@@ -25,6 +25,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.CentralProcessor
             return await PaginatedList<CoreFamilyListItem>.CreateAsync(
                 _context.CentralProcessorCoreFamilies
                 .AsNoTracking()
+                .Include(coreFamily => coreFamily.Microarchitecture)
                 .Select(coreFamily => new CoreFamilyListItem(coreFamily)),
                 pageIndex,
                 pageSize
@@ -38,6 +39,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.CentralProcessor
             var coreFamily = await _context.CentralProcessorCoreFamilies
                 .AsNoTracking()
                 .Where(e => id == e.ID)
+                .Include(coreFamily => coreFamily.Microarchitecture)
                 .FirstOrDefaultAsync();
 
             if (coreFamily is null)

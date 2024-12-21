@@ -78,7 +78,7 @@ namespace ConfiguratorBackend.Models.Catalogue.PowerSupply
     [PrimaryKey(nameof(ComponentID))]
     public class Unit
     {
-        public required int ComponentID { get; set; }
+        public int ComponentID { get; set; }
         public required int FormFactorID { get; set; }
         public required int ModularityID { get; set; }
         public required int EfficiencyRatingID { get; set; }
@@ -87,7 +87,7 @@ namespace ConfiguratorBackend.Models.Catalogue.PowerSupply
         public required bool Fanless { get; set; }
 
         [ForeignKey(nameof(ComponentID))]
-        public Component Component { get; set; } = null!;
+        public required Component Component { get; set; }
         public FormFactor FormFactor { get; set; } = null!;
         public Modularity Modularity { get; set; } = null!;
         public EfficiencyRating EfficiencyRating { get; set; } = null!;

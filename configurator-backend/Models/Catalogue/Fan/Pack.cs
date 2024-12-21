@@ -43,7 +43,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Fan
         public string StaticPressure { get; set; }
         public bool Pwm { get; set; }
 
-        public ICollection<PackConnector> Connectors { get; set; }
+        public ICollection<PackConnectorDto> Connectors { get; set; }
 
         public PackDto(ComponentDto component, Pack pack)
         {
@@ -55,7 +55,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Fan
             NoiseLevel = pack.NoiseLevel;
             StaticPressure = pack.StaticPressure;
             Pwm = pack.Pwm;
-            Connectors = pack.Connectors;
+            Connectors = pack.Connectors.Select(e => new PackConnectorDto(e)).ToList();
         }
 
     }
@@ -86,7 +86,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Fan
     [PrimaryKey(nameof(ComponentID))]
     public class Pack
     {
-        public required int ComponentID { get; set; }
+        public int ComponentID { get; set; }
         public required int Quantity { get; set; }
         public required int SizeID { get; set; }
         public required string Rpm { get; set; }
@@ -96,7 +96,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Fan
         public required bool Pwm { get; set; }
 
         [ForeignKey(nameof(ComponentID))]
-        public Component Component { get; set; } = null!;
+        public required Component Component { get; set; }
         public Size Size { get; set; } = null!;
         public required ICollection<PackConnector> Connectors { get; set; }
     }

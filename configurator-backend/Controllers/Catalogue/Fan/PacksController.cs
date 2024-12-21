@@ -54,6 +54,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Fan
                 .Where(e => id == e.ComponentID)
                 .Include(pack => pack.Size)
                 .Include(pack => pack.Connectors)
+                .ThenInclude(packConnector => packConnector.Connector)
                 .FirstOrDefaultAsync();
 
             if (pack is null)
@@ -158,7 +159,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Fan
 
             var emptyPack = new Pack
             {
-                ComponentID = component.ID,
+                Component = component,
                 SizeID = pack.SizeID,
                 Quantity = pack.Quantity,
                 Rpm = pack.Rpm,

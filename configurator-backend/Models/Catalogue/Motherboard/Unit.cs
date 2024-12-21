@@ -30,7 +30,6 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
         public required ICollection<PowerSupply.ConnectorDtoSimple> PowerSupplyConnectors { get; set; }
         public required ICollection<ChipsetDto> Chipsets { get; set; }
         public required ICollection<FormFactorDto> FormFactors { get; set; }
-        public required ICollection<CentralProcessor.ChannelDto> Channels { get; set; }
         public required ICollection<CentralProcessor.SeriesDto> Series { get; set; }
         public required ICollection<CentralProcessor.UnitDtoSimple> Processors { get; set; }
         public required ICollection<CentralProcessor.CoreFamilyDto> CoreFamilies { get; set; }
@@ -47,7 +46,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
         public ICollection<UnitPowerSupplyConnectorDto> PowerSupplyConnectors { get; set; }
         public ChipsetDto Chipset { get; set; }
         public FormFactorDto FormFactor { get; set; }
-        public CentralProcessor.ChannelDto Channel { get; set; }
+        public int ChannelCount { get; set; }
         public Memory.FormFactorDto MemoryFormFactor { get; set; }
         public Memory.TypeDto MemoryType { get; set; }
         public int MemoryTotalCapacity { get; set; }
@@ -68,7 +67,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
 
             Chipset = new ChipsetDto(unit.Chipset);
             FormFactor = new FormFactorDto(unit.FormFactor);
-            Channel = new CentralProcessor.ChannelDto(unit.Channel);
+            ChannelCount = unit.ChannelCount;
             MemoryFormFactor = new Memory.FormFactorDto(unit.MemoryFormFactor);
             MemoryType = new Memory.TypeDto(unit.MemoryType);
             MemoryTotalCapacity = unit.MemoryTotalCapacity;
@@ -97,7 +96,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
         [Required]
         public required int FormFactorID { get; set; }
         [Required]
-        public required int ChannelID { get; set; }
+        public required int ChannelCount { get; set; }
         [Required]
         public required int MemoryFormFactorID { get; set; }
         [Required]
@@ -122,7 +121,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
         public int ComponentID { get; set; }
         public required int ChipsetID { get; set; }
         public required int FormFactorID { get; set; }
-        public required int ChannelID { get; set; }
+        public required int ChannelCount { get; set; }
         public required int MemoryFormFactorID { get; set; }
         public required int MemoryTypeID { get; set; }
 
@@ -137,7 +136,6 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
         public Component Component { get; set; } = null!;
         public Chipset Chipset { get; set; } = null!;
         public FormFactor FormFactor { get; set; } = null!;
-        public CentralProcessor.Channel Channel { get; set; } = null!;
         public Memory.FormFactor MemoryFormFactor { get; set; } = null!;
         public Memory.Type MemoryType { get; set; } = null!;
 

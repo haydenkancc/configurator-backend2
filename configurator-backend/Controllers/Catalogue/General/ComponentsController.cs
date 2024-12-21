@@ -31,6 +31,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.General
                 .AsNoTracking()
                 .Where(e => id == e.ID)
                 .Include(e => e.Manufacturer)
+                .Include(e => e.Colour)
                 .FirstOrDefaultAsync();
 
             if (component is null)

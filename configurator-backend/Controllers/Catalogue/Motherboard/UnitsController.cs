@@ -70,7 +70,6 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Motherboard
                 .Include(unit => unit.PowerSupplyConnectors)
                 .Include(unit => unit.Chipset)
                 .Include(unit => unit.FormFactor)
-                .Include(unit => unit.Channel)
                 .Include(unit => unit.MemoryFormFactor)
                 .Include(unit => unit.MemoryType)
                 .FirstOrDefaultAsync();
@@ -99,7 +98,6 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Motherboard
                 Processors = await _context.CentralProcessorUnits.AsNoTracking().Select(e => new Models.Catalogue.CentralProcessor.UnitDtoSimple(e)).ToListAsync(),
                 Series = await _context.CentralProcessorSeries.AsNoTracking().Select(e => new Models.Catalogue.CentralProcessor.SeriesDto(e)).ToListAsync(),
                 CoreFamilies = await _context.CentralProcessorCoreFamilies.AsNoTracking().Select(e => new Models.Catalogue.CentralProcessor.CoreFamilyDto(e)).ToListAsync(),
-                Channels = await _context.CentralProcessorChannels.AsNoTracking().Select(e => new Models.Catalogue.CentralProcessor.ChannelDto(e)).ToListAsync(),
                 MemoryFormFactors = await _context.MemoryFormFactors.AsNoTracking().Select(e => new Models.Catalogue.Memory.FormFactorDto(e)).ToListAsync(),
                 MemoryTypes = await _context.MemoryTypes.AsNoTracking().Select(e => new Models.Catalogue.Memory.TypeDto(e)).ToListAsync(),
 
@@ -183,7 +181,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Motherboard
 
             unitToUpdate.ChipsetID = unit.ChipsetID;
             unitToUpdate.FormFactorID = unit.FormFactorID;
-            unitToUpdate.ChannelID = unit.ChannelID;
+            unitToUpdate.ChannelCount = unit.ChannelCount;
             unitToUpdate.MemoryFormFactorID = unit.MemoryFormFactorID;
             unitToUpdate.MemoryTypeID = unit.MemoryTypeID;
             unitToUpdate.MemoryTotalCapacity = unit.MemoryTotalCapacity;
@@ -275,7 +273,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Motherboard
 
                 ChipsetID = unit.ChipsetID,
                 FormFactorID = unit.FormFactorID,
-                ChannelID = unit.ChannelID,
+                ChannelCount = unit.ChannelCount,
                 MemoryFormFactorID = unit.MemoryFormFactorID,
                 MemoryTypeID = unit.MemoryTypeID,
                 MemoryTotalCapacity = unit.MemoryTotalCapacity,
@@ -310,14 +308,13 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Motherboard
 
         private async Task<bool> UnitIsValid(UnitDbo unit)
         {
-            if (unit.MemoryTotalCapacity < 0 || unit.MemorySlotCount < 0 )
+            if (unit.MemoryTotalCapacity < 0 || unit.MemorySlotCount < 0 || unit.ChannelCount < 0)
             {
                 return false;
             }
 
             if (!await _context.MotherboardChipsets.AnyAsync(e => e.ID == unit.ChipsetID) ||
                 !await _context.MotherboardFormFactors.AnyAsync(e => e.ID == unit.FormFactorID) ||
-                !await _context.CentralProcessorChannels.AnyAsync(e => e.ID == unit.ChannelID) ||
                 !await _context.MemoryFormFactors.AnyAsync(e => e.ID == unit.MemoryFormFactorID) ||
                 !await _context.MemoryTypes.AnyAsync(e => e.ID == unit.MemoryTypeID)
                )

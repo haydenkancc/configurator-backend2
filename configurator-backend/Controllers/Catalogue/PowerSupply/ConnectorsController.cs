@@ -37,6 +37,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.PowerSupply
             var connector = await _context.PowerSupplyConnectors
                 .AsNoTracking()
                 .Where(e => id == e.ID)
+                .Include(connector => connector.CompatibleConnectors)
                 .FirstOrDefaultAsync();
 
             if (connector is null)

@@ -44,8 +44,7 @@ namespace ConfiguratorBackend.Models.Catalogue.CentralProcessor
         public required ComponentParams Component { get; set; }
         public required ICollection<SocketDto> Sockets { get; set; }
         public required ICollection<SeriesDto> Series { get; set; }
-        public required ICollection<ChannelDto> Channels { get; set; }
-        public required ICollection<CoreFamilyDto> CoreFamilies { get; set; }
+        public required ICollection<CoreFamilyDtoSimple> CoreFamilies { get; set; }
     }
 
     public class UnitDtoSimple
@@ -65,9 +64,9 @@ namespace ConfiguratorBackend.Models.Catalogue.CentralProcessor
         public ComponentDto Component { get; set; }
         public SocketDto Socket { get; set; }
         public SeriesDto Series { get; set; }
-        public ChannelDto Channel { get; set; }
         public CoreFamilyDto CoreFamily { get; set; }
 
+        public int ChannelCount { get; set; }
         public int MaxTotalMemoryCapacity { get; set; }
         public int TotalPower { get; set; }
         public bool HasIntegratedGraphics { get; set; }
@@ -95,9 +94,9 @@ namespace ConfiguratorBackend.Models.Catalogue.CentralProcessor
             Component = component;
             Socket = new SocketDto(unit.Socket);
             Series = new SeriesDto(unit.Series);
-            Channel = new ChannelDto(unit.Channel);
             CoreFamily = new CoreFamilyDto(unit.CoreFamily);
 
+            ChannelCount = unit.ChannelCount;
             MaxTotalMemoryCapacity = unit.MaxTotalMemoryCapacity;
             TotalPower = unit.TotalPower;
             HasIntegratedGraphics = unit.HasIntegratedGraphics;
@@ -112,6 +111,7 @@ namespace ConfiguratorBackend.Models.Catalogue.CentralProcessor
             PerformanceCoreBoostClock = unit.PerformanceCoreBoostClock;
             HasEfficiencyCores = unit.HasEfficiencyCores;
 
+            EfficiencyCoreCount = unit.EfficiencyCoreCount;
             EfficiencyCoreClock = unit.EfficiencyCoreClock;
             EfficiencyCoreBoostClock = unit.EfficiencyCoreBoostClock;
             L2Cache = unit.L2Cache;
@@ -129,11 +129,11 @@ namespace ConfiguratorBackend.Models.Catalogue.CentralProcessor
         [Required]
         public required int SeriesID { get; set; }
         [Required]
-        public required int ChannelID { get; set; }
+        public required int ChannelCount { get; set; }
         [Required]
         public required int CoreFamilyID { get; set; }
         [Required]
-        public required int MaxTotalMemoryCapacityID { get; set; }
+        public required int MaxTotalMemoryCapacity { get; set; }
         [Required]
         public required int TotalPower { get; set; }
         [Required]
@@ -175,12 +175,12 @@ namespace ConfiguratorBackend.Models.Catalogue.CentralProcessor
     [PrimaryKey(nameof(ComponentID))]
     public class Unit
     {
-        public required int ComponentID { get; set; }
+        public int ComponentID { get; set; }
         public required int SocketID { get; set; }
         public required int SeriesID { get; set; }
-        public required int ChannelID { get; set; }
         public required int CoreFamilyID { get; set; }
 
+        public required int ChannelCount { get; set; }
         public required int MaxTotalMemoryCapacity { get; set; }
         public required int TotalPower { get; set; }
         public required bool HasIntegratedGraphics { get; set; }
@@ -209,12 +209,11 @@ namespace ConfiguratorBackend.Models.Catalogue.CentralProcessor
         public required bool SimultaneousMultithreading { get; set; }
 
         [ForeignKey(nameof(ComponentID))]
-        public Component Component { get; set; } = null!;
+        public required Component Component { get; set; }
         public CoreFamily CoreFamily { get; set; } = null!;
 
 
         public Socket Socket { get; set; } = null!;
         public Series Series { get; set; } = null!;
-        public Channel Channel { get; set; } = null!;
     }
 }

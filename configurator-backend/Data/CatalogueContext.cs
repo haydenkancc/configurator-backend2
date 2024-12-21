@@ -57,8 +57,6 @@ namespace Configurator.Data
         public DbSet<GraphicsCard.Unit> GraphicsCardUnits { get; set; }
         public DbSet<GraphicsCard.Configuration> GraphicsCardConfigurations { get; set; }
         public DbSet<GraphicsCard.ConfigurationConnector> GraphicsCardConfigurationConnectors { get; set; }
-
-        public DbSet<CentralProcessor.Channel> CentralProcessorChannels { get; set; }
         public DbSet<CentralProcessor.Series> CentralProcessorSeries { get; set; }
         public DbSet<CentralProcessor.Socket> CentralProcessorSockets { get; set; }
         public DbSet<CentralProcessor.Microarchitecture> CentralProcessorMicroarchitectures { get; set; }
