@@ -1,0 +1,17 @@
+services: 
+    mssql:
+        container_name: mssql
+        hostname: mssql
+        user: root
+        network_mode: host
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        volumes:
+            - /C/Users/Hayden/mssql/data:/var/opt/mssql/data
+            - /C/Users/Hayden/mssql/log:/var/opt/mssql/log
+            - /C/Users/Hayden/mssql/secrets:/var/opt/mssql/secrets
+        ports:
+            - 1433:1433
+        environment:
+            - ACCEPT_EULA=Y
+            - MSSQL_SA_PASSWORD=Password123
+        restart: unless-stopped

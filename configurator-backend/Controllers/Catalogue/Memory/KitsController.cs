@@ -102,7 +102,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Memory
             }
 
             kitToUpdate.FormFactorID = kit.FormFactorID;
-            kitToUpdate.TypeID = kit.FormFactorID;
+            kitToUpdate.TypeID = kit.TypeID;
             kitToUpdate.Capacity = kit.Capacity;
 
 
