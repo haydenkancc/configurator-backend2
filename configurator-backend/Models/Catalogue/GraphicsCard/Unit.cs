@@ -107,8 +107,8 @@ namespace ConfiguratorBackend.Models.Catalogue.GraphicsCard
     [PrimaryKey(nameof(ComponentID))]
     public class Unit
     {
-        public required int ComponentID { get; set; }
-        public required int ExpansionCardID { get; set; }
+        public int ComponentID { get; set; }
+        public int ExpansionCardID { get; set; }
         public required int ChipsetID { get; set; }
         [Column(TypeName = "decimal(8,2)")]
         public required decimal Length { get; set; }
@@ -127,8 +127,8 @@ namespace ConfiguratorBackend.Models.Catalogue.GraphicsCard
         public required int BoostClock { get; set; }
 
         [ForeignKey(nameof(ComponentID))]
-        public Component Component { get; set; } = null!;
-        public Pcie.ExpansionCard ExpansionCard { get; set; } = null!;
+        public required Component Component { get; set; }
+        public required Pcie.ExpansionCard ExpansionCard { get; set; }
         public Chipset Chipset { get; set; } = null!;
         public Memory.Type MemoryType { get; set; } = null!;
         public required ICollection<Configuration> Configurations { get; set; }

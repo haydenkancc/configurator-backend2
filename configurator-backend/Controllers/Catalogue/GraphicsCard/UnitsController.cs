@@ -19,7 +19,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.GraphicsCard
         public UnitsController(CatalogueContext context, ComponentsController componentsController, Pcie.ExpansionCardsController expansionCardsController)
         {
             _context = context;
-            _componentsController = componentsController;
+            _componentsController = componentsController;   
             _expansionCardsController = expansionCardsController;
         }
 
@@ -51,14 +51,6 @@ namespace ConfiguratorBackend.Controllers.Catalogue.GraphicsCard
                 return c.Result ?? BadRequest(ModelState);
             }
 
-            var e = await _expansionCardsController.GetExpansionCard(id);
-            var expansionCard = e.Value;
-
-            if (expansionCard is null)
-            {
-                return e.Result ?? BadRequest(ModelState);
-            }
-
             var unit = await _context.GraphicsCardUnits
                 .AsNoTracking()
                 .Where(e => id == e.ComponentID)
@@ -66,11 +58,20 @@ namespace ConfiguratorBackend.Controllers.Catalogue.GraphicsCard
                 .Include(unit => unit.MemoryType)
                 .Include(unit => unit.Configurations)
                 .ThenInclude(configuration => configuration.Connectors)
+                .ThenInclude(connectors => connectors.Connector)
                 .FirstOrDefaultAsync();
 
             if (unit is null)
             {
                 return NotFound();
+            }
+
+            var e = await _expansionCardsController.GetExpansionCard(unit.ExpansionCardID);
+            var expansionCard = e.Value;
+
+            if (expansionCard is null)
+            {
+                return e.Result ?? BadRequest(ModelState);
             }
 
             return new UnitDto(component, expansionCard, unit);
@@ -101,18 +102,18 @@ namespace ConfiguratorBackend.Controllers.Catalogue.GraphicsCard
                 return componentResult;
             }
 
-            var expansionCardResult = await _expansionCardsController.PutExpansionCard(id, unit.ExpansionCard);
-
-            if (expansionCardResult is not NoContentResult)
-            {
-                return expansionCardResult;
-            }
-
             var unitToUpdate = await _context.GraphicsCardUnits.FirstOrDefaultAsync(unit => id == unit.ComponentID);
 
             if (unitToUpdate == null)
             {
                 return NotFound();
+            }
+
+            var expansionCardResult = await _expansionCardsController.PutExpansionCard(unitToUpdate.ExpansionCardID, unit.ExpansionCard);
+
+            if (expansionCardResult is not NoContentResult)
+            {
+                return expansionCardResult;
             }
 
             if (!await UnitIsValid(unit))
@@ -173,7 +174,6 @@ namespace ConfiguratorBackend.Controllers.Catalogue.GraphicsCard
             return NoContent();
         }
 
-
         [HttpPost]
         public async Task<ActionResult<Unit>> PostUnit(UnitDbo unit)
         {
@@ -202,8 +202,8 @@ namespace ConfiguratorBackend.Controllers.Catalogue.GraphicsCard
 
             var emptyUnit = new Unit
             {
-                ComponentID = component.ID,
-                ExpansionCardID = expansionCard.ID,
+                Component = component,
+                ExpansionCard = expansionCard,
                 ChipsetID = unit.ChipsetID,
                 MemoryCapacity = unit.MemoryCapacity,
                 MemoryTypeID = unit.MemoryTypeID,
@@ -227,7 +227,6 @@ namespace ConfiguratorBackend.Controllers.Catalogue.GraphicsCard
                 })
                 .ToList()
             };
-
 
             _context.GraphicsCardUnits.Add(emptyUnit);
             await _context.SaveChangesAsync();

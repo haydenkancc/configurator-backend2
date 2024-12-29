@@ -28,11 +28,11 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
         public required ICollection<M2.SlotDtoSimple> M2Slots { get; set; }
         public required ICollection<Pcie.SlotDtoSimple> PcieSlots { get; set; }
         public required ICollection<PowerSupply.ConnectorDtoSimple> PowerSupplyConnectors { get; set; }
-        public required ICollection<ChipsetDto> Chipsets { get; set; }
+        public required ICollection<ChipsetDtoSimple> Chipsets { get; set; }
         public required ICollection<FormFactorDto> FormFactors { get; set; }
         public required ICollection<CentralProcessor.SeriesDto> Series { get; set; }
         public required ICollection<CentralProcessor.UnitDtoSimple> Processors { get; set; }
-        public required ICollection<CentralProcessor.CoreFamilyDto> CoreFamilies { get; set; }
+        public required ICollection<CentralProcessor.CoreFamilyDtoSimple> CoreFamilies { get; set; }
         public required ICollection<Memory.FormFactorDto> MemoryFormFactors { get; set; }
         public required ICollection<Memory.TypeDto> MemoryTypes { get; set; }
     }

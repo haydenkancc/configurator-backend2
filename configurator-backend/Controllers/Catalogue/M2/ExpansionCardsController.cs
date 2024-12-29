@@ -99,9 +99,8 @@ namespace ConfiguratorBackend.Controllers.Catalogue.M2
             };
 
             _context.M2ExpansionCards.Add(emptyExpansionCard);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetExpansionCard), new { id = emptyExpansionCard.ID }, emptyExpansionCard);
+            return emptyExpansionCard;
         }
 
         public async Task<IActionResult> DeleteExpansionCard(int id)

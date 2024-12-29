@@ -90,14 +90,25 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Motherboard
                 Component = await _componentsController.GetComponentParams(),
 
                 FormFactors = await _context.MotherboardFormFactors.AsNoTracking().Select(e => new FormFactorDto(e)).ToListAsync(),
-                Chipsets = await _context.MotherboardChipsets.AsNoTracking().Select(e => new ChipsetDto(e)).ToListAsync(),
+                Chipsets = await _context.MotherboardChipsets
+                    .AsNoTracking()
+                    .Include(e => e.Socket)
+                    .Select(e => new ChipsetDtoSimple(e))
+                    .ToListAsync(),
 
                 IOConnectors = await _context.IOConnectors.AsNoTracking().Select(e => new Models.Catalogue.IO.ConnectorDtoSimple(e)).ToListAsync(),
                 PowerSupplyConnectors = await _context.PowerSupplyConnectors.AsNoTracking().Select(e => new Models.Catalogue.PowerSupply.ConnectorDtoSimple(e)).ToListAsync(),
 
-                Processors = await _context.CentralProcessorUnits.AsNoTracking().Select(e => new Models.Catalogue.CentralProcessor.UnitDtoSimple(e)).ToListAsync(),
+                Processors = await _context.CentralProcessorUnits
+                    .AsNoTracking()
+                    .Include(e => e.Component)
+                    .ThenInclude(e => e.Manufacturer)
+                    .Include(e => e.Series)
+                    .Select(e => new Models.Catalogue.CentralProcessor.UnitDtoSimple(e))
+                    .ToListAsync(),
+
                 Series = await _context.CentralProcessorSeries.AsNoTracking().Select(e => new Models.Catalogue.CentralProcessor.SeriesDto(e)).ToListAsync(),
-                CoreFamilies = await _context.CentralProcessorCoreFamilies.AsNoTracking().Select(e => new Models.Catalogue.CentralProcessor.CoreFamilyDto(e)).ToListAsync(),
+                CoreFamilies = await _context.CentralProcessorCoreFamilies.AsNoTracking().Select(e => new Models.Catalogue.CentralProcessor.CoreFamilyDtoSimple(e)).ToListAsync(),
                 MemoryFormFactors = await _context.MemoryFormFactors.AsNoTracking().Select(e => new Models.Catalogue.Memory.FormFactorDto(e)).ToListAsync(),
                 MemoryTypes = await _context.MemoryTypes.AsNoTracking().Select(e => new Models.Catalogue.Memory.TypeDto(e)).ToListAsync(),
 

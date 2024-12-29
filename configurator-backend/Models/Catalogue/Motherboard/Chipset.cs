@@ -18,6 +18,18 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
         }
     }
 
+    public class ChipsetDtoSimple
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+
+        public ChipsetDtoSimple(Chipset chipset)
+        {
+            ID = chipset.ID;
+            Name = $"{chipset.Name} ({chipset.Socket.Name})";
+        }
+    }
+
     public class ChipsetDto
     {
         public int ID { get; set; }

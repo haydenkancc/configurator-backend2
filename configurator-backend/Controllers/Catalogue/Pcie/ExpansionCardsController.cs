@@ -22,6 +22,10 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
             var expansionCard = await _context.PcieExpansionCards
                 .AsNoTracking()
                 .Where(e => id == e.ID)
+                .Include(e => e.Bracket)
+                .Include(e => e.Version)
+                .Include(e => e.LaneSize)
+                .Include(e => e.PhysicalSize)
                 .FirstOrDefaultAsync();
 
             if (expansionCard is null)
@@ -102,9 +106,8 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Pcie
             };
 
             _context.PcieExpansionCards.Add(emptyExpansionCard);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetExpansionCard), new { id = emptyExpansionCard.ID }, emptyExpansionCard);
+            return emptyExpansionCard;
         }
 
         public async Task<IActionResult> DeleteExpansionCard(int id)
