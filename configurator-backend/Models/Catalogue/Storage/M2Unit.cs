@@ -22,8 +22,8 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
 
     public class M2Unit : Unit
     {
-        public required int ExpansionCardID { get; set; }
+        public int ExpansionCardID { get; set; }
 
-        public M2.ExpansionCard ExpansionCard { get; set; } = null!;
+        public required M2.ExpansionCard ExpansionCard { get; set; }
     }
 }

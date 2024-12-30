@@ -38,9 +38,9 @@ namespace ConfiguratorBackend.Models.Catalogue.Case
 
     }
 
-    [PrimaryKey(nameof(UnitID))]
     public class Layout
     {
+        public int ID { get; set; }
         public int UnitID { get; set; }
 
 

@@ -246,7 +246,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Motherboard
 
             var emptyUnit = new Unit
             {
-                ComponentID = component.ID,
+                Component = component,
 
                 IOConnectors = unit.IOConnectors.Select(e => new UnitIOConnector
                 {

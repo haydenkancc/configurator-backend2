@@ -239,7 +239,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Case
 
             var emptyUnit = new Unit
             {
-                ComponentID = component.ID,
+                Component = component,
                 PowerSupplyFormFactorID = unit.PowerSupplyFormFactorID,
                 PrimaryMotherboardFormFactorID = unit.PrimaryMotherboardFormFactorID,
                 SizeID = unit.SizeID,

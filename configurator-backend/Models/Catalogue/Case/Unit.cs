@@ -121,7 +121,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Case
     [PrimaryKey(nameof(ComponentID))]
     public class Unit
     {
-        public required int ComponentID { get; set; }
+        public int ComponentID { get; set; }
         public required int PowerSupplyFormFactorID { get; set; }
         public required int PrimaryMotherboardFormFactorID { get; set; }
         public required int SizeID { get; set; }
@@ -137,7 +137,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Case
 
 
         [ForeignKey(nameof(ComponentID))]
-        public Component Component { get; set; } = null!;
+        public required Component Component { get; set; }
         public required ICollection<Layout> Layouts { get; set; }
         public required ICollection<UnitIOConnector> IOConnectors { get; set; }
         public required ICollection<UnitPowerSupplyConnector> PowerSupplyConnectors { get; set; }

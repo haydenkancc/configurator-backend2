@@ -118,7 +118,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Cooler
     [PrimaryKey(nameof(ComponentID))]
     public abstract class Unit
     {
-        public required int ComponentID { get; set; }
+        public int ComponentID { get; set; }
         public Type Type { get; set; }
 
         public required bool IsPassive { get; set; }
@@ -133,6 +133,6 @@ namespace ConfiguratorBackend.Models.Catalogue.Cooler
         public ICollection<UnitConnector> Connectors { get; set; } = new List<UnitConnector>();
 
         [ForeignKey(nameof(ComponentID))]
-        public Component Component { get; set; } = null!;
+        public required Component Component { get; set; }
     }
 }

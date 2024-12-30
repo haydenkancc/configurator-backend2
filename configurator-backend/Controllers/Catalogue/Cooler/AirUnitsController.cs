@@ -123,7 +123,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Cooler
 
             var emptyAirUnit = new AirUnit
             {
-                ComponentID = component.ID,
+                Component = component,
                 LimitsMemoryHeight = unit.LimitsMemoryHeight,
                 MaximumMemoryHeight = unit.LimitsMemoryHeight ? unit.MaximumMemoryHeight : null,
                 Height = unit.Height,

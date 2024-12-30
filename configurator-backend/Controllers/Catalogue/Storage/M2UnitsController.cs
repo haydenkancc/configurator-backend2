@@ -165,8 +165,8 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Storage
 
             var emptyUnit = new M2Unit
             {
-                ComponentID = component.ID,
-                ExpansionCardID = expansionCard.ID,
+                Component = component,
+                ExpansionCard = expansionCard,
                 Drive = drive,
                 ConnectionInterfaceID = unit.ConnectionInterfaceID,
                 Capacity = unit.Capacity,

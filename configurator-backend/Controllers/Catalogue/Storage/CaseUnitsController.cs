@@ -148,7 +148,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Storage
 
             var emptyUnit = new CaseUnit
             {
-                ComponentID = component.ID,
+                Component = component,
                 FormFactorID = unit.FormFactorID,
                 IOConnectorID = unit.IOConnectorID,
                 PowerSupplyConnectorID = unit.PowerSupplyConnectorID,

@@ -116,7 +116,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
     [PrimaryKey(nameof(ComponentID))]
     public abstract class Unit
     {
-        public required int ComponentID { get; set; }
+        public int ComponentID { get; set; }
         public Location Location { get; set; }
         public required int ConnectionInterfaceID { get; set; }
 
@@ -128,6 +128,6 @@ namespace ConfiguratorBackend.Models.Catalogue.Storage
         public required Drive Drive { get; set; }
 
         [ForeignKey(nameof(ComponentID))]
-        public Component Component { get; set; } = null!;
+        public required Component Component { get; set; }
     }
 }

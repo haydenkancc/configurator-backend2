@@ -124,7 +124,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Cooler
 
             var emptyLiquidUnit = new LiquidUnit
             {
-                ComponentID = component.ID,
+                Component = component,
                 RadiatorSizeID = unit.RadiatorSizeID,
                 Length = unit.Length,
                 Width = unit.Width,

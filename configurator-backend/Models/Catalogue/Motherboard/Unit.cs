@@ -133,7 +133,7 @@ namespace ConfiguratorBackend.Models.Catalogue.Motherboard
         public required bool SupportUnbufferedMemory { get; set; }
 
         [ForeignKey(nameof(ComponentID))]
-        public Component Component { get; set; } = null!;
+        public required Component Component { get; set; }
         public Chipset Chipset { get; set; } = null!;
         public FormFactor FormFactor { get; set; } = null!;
         public Memory.FormFactor MemoryFormFactor { get; set; } = null!;
