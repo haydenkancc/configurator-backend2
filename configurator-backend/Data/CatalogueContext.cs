@@ -12,6 +12,7 @@ using Cooler = ConfiguratorBackend.Models.Catalogue.Cooler;
 using CentralProcessor = ConfiguratorBackend.Models.Catalogue.CentralProcessor;
 using GraphicsCard = ConfiguratorBackend.Models.Catalogue.GraphicsCard;
 using Case = ConfiguratorBackend.Models.Catalogue.Case;
+using ConfiguratorBackend.Models.Catalogue;
 
 namespace Configurator.Data
 {
@@ -100,6 +101,8 @@ namespace Configurator.Data
         public DbSet<Motherboard.UnitPowerSupplyConnector> MotherboardUnitPowerSupplyConnectors { get; set; }
         public DbSet<Motherboard.UnitM2Slot> MotherboardUnitM2Slots { get; set; }
         public DbSet<Motherboard.UnitPcieSlot> MotherboardUnitPcieSlots { get; set; }
+
+        public DbSet<Configuration> Configurations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
