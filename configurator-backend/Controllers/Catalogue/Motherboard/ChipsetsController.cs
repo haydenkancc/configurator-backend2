@@ -25,6 +25,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Motherboard
             return await PaginatedList<ChipsetListItem>.CreateAsync(
                 _context.MotherboardChipsets
                 .AsNoTracking()
+                .Include(e => e.Socket)
                 .Select(chipset => new ChipsetListItem(chipset)),
                 pageIndex,
                 pageSize
@@ -38,6 +39,7 @@ namespace ConfiguratorBackend.Controllers.Catalogue.Motherboard
             var chipset = await _context.MotherboardChipsets
                 .AsNoTracking()
                 .Where(e => id == e.ID)
+                .Include(e => e.Socket)
                 .FirstOrDefaultAsync();
 
             if (chipset is null)
